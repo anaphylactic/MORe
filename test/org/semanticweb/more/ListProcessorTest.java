@@ -9,6 +9,7 @@ import java.util.Set;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.semanticweb.more.reasoner.ListProcessor;
+import org.semanticweb.more.util.Utility;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -102,7 +103,7 @@ public class ListProcessorTest{
 		expectedResult.add(f);
 
 		ListProcessor tester = new ListProcessor();
-		assertEquals(expectedResult, tester.getMinimalCombination(mainList, 10));
+		assertTrue(Utility.compareCollections(expectedResult, tester.getMinimalCombination(mainList, 10)));
 	}
 
 	@Test
@@ -135,7 +136,7 @@ public class ListProcessorTest{
 		expectedResult.add(f);
 		
 		ListProcessor tester = new ListProcessor();
-		assertEquals(expectedResult, tester.addsFewest(list, auxSet, 10));
+		assertTrue(Utility.compareCollections(expectedResult, tester.addsFewest(list, auxSet, 10)));
 	}
 
 	@Test
@@ -177,7 +178,7 @@ public class ListProcessorTest{
 		expectedResult.add(b);
 		
 		ListProcessor tester = new ListProcessor();
-		assertEquals(expectedResult, tester.getBestCombination(list1, list2, 10));
+		assertTrue(Utility.compareCollections(expectedResult, tester.getBestCombination(list1, list2, 10)));
 	}
 	
 	@Test
@@ -280,9 +281,7 @@ public class ListProcessorTest{
 		auxSet = new HashSet<OWLEntity>();
 
 		ListProcessor tester = new ListProcessor();
-//		System.out.println(expectedResult.toString());
-//		System.out.println(tester.getAllCombinations(mainList, true).toString());
-		assertEquals(expectedResult, tester.getAllCombinations(mainList, true));
+		assertTrue(Utility.compareCollections(expectedResult, tester.getAllCombinations(mainList, true)));
 		
 		expectedResult = new LinkedList<Set<OWLEntity>>();
 		auxSet.add(c);
@@ -350,9 +349,7 @@ public class ListProcessorTest{
 		expectedResult.add(auxSet);
 		auxSet = new HashSet<OWLEntity>();
 		
-		//System.out.println(expectedResult.toString());
-		//System.out.println(tester.getAllCombinations(mainList, false).toString());
-		assertEquals(expectedResult, tester.getAllCombinations(mainList, false));
+		assertTrue(Utility.compareCollections(expectedResult, tester.getAllCombinations(mainList, false)));
 	}
 	
 

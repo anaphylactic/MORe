@@ -1,5 +1,5 @@
 package org.semanticweb.more.lsignature;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -9,6 +9,7 @@ import java.util.Set;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.semanticweb.more.reasoner.LocalityInfo;
+import org.semanticweb.more.util.Utility;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -95,9 +96,9 @@ public class BottomLocalityCheckerTest{
 		signature.add(r);
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -109,9 +110,7 @@ public class BottomLocalityCheckerTest{
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
-		//System.out.println(locInfo.getSolutions().toString());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -130,9 +129,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -156,9 +155,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(c);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 
 		
 		
@@ -178,9 +175,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -194,9 +191,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(d);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 
 		
 		
@@ -220,9 +215,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -238,7 +233,7 @@ public class BottomLocalityCheckerTest{
 		
 		//System.out.println(locInfo.getSolutions());
 		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 
 		
 		
@@ -255,18 +250,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 		
 		
 		
@@ -284,18 +277,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(t);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 		
 		
 		
@@ -313,9 +304,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -323,9 +314,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(s);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 		
 		
 		
@@ -343,9 +332,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -353,9 +342,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(u);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 
 
 		
@@ -373,9 +360,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -385,9 +372,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(s);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 		
 		
 		
@@ -405,9 +390,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -417,9 +402,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(u);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -436,18 +419,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 		
 		
 		
@@ -464,18 +445,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(t);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -492,18 +471,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 		
 
 		
@@ -521,9 +498,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -531,9 +508,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(s);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 
 		
 		
@@ -550,18 +525,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 
 		
 		
@@ -578,18 +551,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 		
 		
 		
@@ -606,18 +577,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 		
 		
 		
@@ -634,18 +603,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 				
 		
 		
@@ -662,18 +629,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 
 		
 		
@@ -691,9 +656,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -703,9 +668,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(a);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 
 
 		
@@ -723,9 +686,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -735,9 +698,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(a);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 
 
 		
@@ -755,9 +716,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -767,9 +728,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(a);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 
 		
 
@@ -786,18 +745,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(t);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -820,9 +777,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -832,9 +789,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(s);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));		
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));		
 
 		
 		/////////////////////////////
@@ -850,18 +805,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isLocalAxiom(axiom, signature, new HashSet<OWLEntity>());
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(a);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));	
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));	
 	}
 	
 
@@ -883,18 +836,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(a);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -914,9 +865,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -929,9 +880,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(c);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 
 		
@@ -952,9 +901,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -974,9 +923,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(d);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -995,18 +942,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(b);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1035,9 +980,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -1047,9 +992,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1067,18 +1010,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(t);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1096,18 +1037,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1125,18 +1064,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1154,18 +1091,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(t);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1184,9 +1119,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -1196,9 +1131,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(a);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1216,18 +1149,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(t);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1254,9 +1185,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -1266,9 +1197,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(a);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1286,18 +1215,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(t);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 	}
 	
 	
@@ -1319,18 +1246,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isBottomClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(a);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1351,9 +1276,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isTopClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -1373,9 +1298,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(d);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 
 		
@@ -1395,9 +1318,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isTopClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -1410,9 +1333,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1431,9 +1352,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isTopClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -1443,9 +1364,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(b);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		//////////////////////////////
@@ -1471,9 +1390,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isTopClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -1483,9 +1402,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1503,18 +1420,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isTopClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(t);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1547,9 +1462,9 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isTopClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
@@ -1559,9 +1474,7 @@ public class BottomLocalityCheckerTest{
 		auxSet.add(r);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 		
@@ -1579,18 +1492,16 @@ public class BottomLocalityCheckerTest{
 		locInfo = tester.isTopClass(exp);
 		
 		//isLocal
-		assertEquals(false, locInfo.is());
+		assertTrue(!locInfo.is());
 		//canMakeLocal
-		assertEquals(true, locInfo.canMake());
+		assertTrue(locInfo.canMake());
 		//solutions
 		expectedSolutions = new LinkedList<Set<OWLEntity>>();
 		auxSet = new HashSet<OWLEntity>();
 		auxSet.add(t);
 		expectedSolutions.add(auxSet);
 		
-		//System.out.println(locInfo.getSolutions());
-		//System.out.println(expectedSolutions.toString());
-		assertEquals(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions()));
+		assertTrue(Utility.compareCollections(new HashSet<Set<OWLEntity>>(expectedSolutions), new HashSet<Set<OWLEntity>>(locInfo.getSolutions())));
 		
 		
 	}

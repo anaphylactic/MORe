@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Level;
-import org.junit.Test;
+import static org.junit.Assert.*;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.more.reasoner.MOReReasoner;
 import org.semanticweb.more.reasoner.MOReReasonerConfiguration;
@@ -76,7 +76,7 @@ public class MOReReasonerTest {
 					MOReReasoner more = new MOReReasoner(ontology, config);
 					more.precomputeInferences(InferenceType.CLASS_HIERARCHY);
 					System.out.println("done classifying");
-					TestUtility.compareClassificationMORe(ontology.getClassesInSignature(true), hermit, more);
+					assertTrue(TestUtility.compareClassificationMORe(ontology.getClassesInSignature(true), hermit, more));
 					System.out.println("now to reload");
 
 					manager.removeOntology(ontology);

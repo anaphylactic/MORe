@@ -1,5 +1,8 @@
 package uk.ac.ox.cs.pagoda.query;
 
+import static org.junit.Assert.*;
+
+import java.io.File;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +26,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
+import uk.ac.ox.cs.pagoda.util.Utility_PAGOdA;
 
 
 public class GapByStore4ID_test {
@@ -41,8 +45,11 @@ public class GapByStore4ID_test {
 	OWLIndividual j;
 	OWLDataFactory factory;
 	OWLOntologyManager manager;
-	String iriPrefix4Entities = "file://Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology";
-	String iriPrefix4Ontology = "file:/Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology";
+	String iriBase = new File(Utility_PAGOdA.TempDirectory + "ontology.owl").getAbsolutePath();
+	String iriPrefix4Entities = "file:/" + iriBase.substring(0, iriBase.lastIndexOf("."));
+//	String iriPrefix4Entities = "file://Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology";
+	String iri = "file:" + iriBase;
+//	String iriPrefix4Ontology = "file:/Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology";
 	
 	Set<OWLEntity> signature;
 	OWLAxiom axiom;
@@ -80,8 +87,8 @@ public class GapByStore4ID_test {
 		OWLAxiom ax4 = factory.getOWLSubClassOfAxiom(b, factory.getOWLObjectAllValuesFrom(s.getInverseProperty(), factory.getOWLNothing()));
 		OWLAxiom ax5 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectUnionOf(c,d));
 		OWLAxiom ax6 = factory.getOWLSubClassOfAxiom(factory.getOWLObjectUnionOf(c,d), e);
+
 		
-		String iri = "file:/Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology.owl";
 		OWLOntology o = manager.createOntology(IRI.create(iri));
 		manager.addAxiom(o, ax1);
 		manager.addAxiom(o, ax2);
@@ -111,22 +118,21 @@ public class GapByStore4ID_test {
 		lazyGap_Individuals.add("<http://www.cs.ox.ac.uk/MORe#instantiation0>");
 		Set<String> lazyGap_Predicates1 = new HashSet<String>();
 		lazyGap_Predicates1.add("<http://www.w3.org/2002/07/owl#Nothing>"); 
-		lazyGap_Predicates1.add("<file://Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology#C>");
-		lazyGap_Predicates1.add("<file://Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology#E>");
+		lazyGap_Predicates1.add("<" + iriPrefix4Entities + "#C>");
+		lazyGap_Predicates1.add("<" + iriPrefix4Entities + "#E>");
 		Set<String> lazyGap_Predicates2 = new HashSet<String>();
 		lazyGap_Predicates2.add("<http://www.w3.org/2002/07/owl#Nothing>"); 
-		lazyGap_Predicates2.add("<file://Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology#C>");
-		lazyGap_Predicates2.add("<file://Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology#E>");
+		lazyGap_Predicates2.add("<" + iriPrefix4Entities + "#D>");
+		lazyGap_Predicates2.add("<" + iriPrefix4Entities + "#E>");
 		Set<String> lazyGap_IndividualsNothing = new HashSet<String>();
-		lazyGap_IndividualsNothing.add("<http://www.cs.ox.ac.uk/MORe#instantiation0>");
 		
 		Set<String> gap_Individuals = new HashSet<String>();
 		gap_Individuals.add("<http://www.cs.ox.ac.uk/MORe#instantiation0>");
 		Set<String> gap_Predicates = new HashSet<String>();
 		gap_Predicates.add("<http://www.w3.org/2002/07/owl#Nothing>"); 
-		gap_Predicates.add("<file://Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology#C>");
-		gap_Predicates.add("<file://Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology#D>");
-		gap_Predicates.add("<file://Users/Ana/Documents/Work/DatalogModules/MORe_2.0/test/ontology#E>");
+		gap_Predicates.add("<" + iriPrefix4Entities + "#C>");
+		gap_Predicates.add("<" + iriPrefix4Entities + "#D>");
+		gap_Predicates.add("<" + iriPrefix4Entities + "#E>");
 		Set<String> gap_IndividualsNothing = new HashSet<String>();
 		gap_IndividualsNothing.add("<http://www.cs.ox.ac.uk/MORe#instantiation0>");
 		
@@ -134,20 +140,21 @@ public class GapByStore4ID_test {
 		int counter = 0;
 		for (GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly gap : pagoda.getGaps()){
 			if (counter == 0){
-				assert(Utility.compareCollections(gap.getNamedIndividualsWithGap(), lazyGap_Individuals));
-				assert(Utility.compareCollections(gap.getNamedInstancesOfNothing(), lazyGap_IndividualsNothing));
-				assert(Utility.compareCollections(gap.getPredicatesWithGap(), lazyGap_Predicates1) || 
+				assertTrue(Utility.compareCollections(gap.getNamedIndividualsWithGap(), lazyGap_Individuals));
+				assertTrue(Utility.compareCollections(gap.getNamedInstancesOfNothing(), lazyGap_IndividualsNothing));
+				assertTrue(Utility.compareCollections(gap.getPredicatesWithGap(), lazyGap_Predicates1) || 
 						Utility.compareCollections(gap.getPredicatesWithGap(), lazyGap_Predicates2));
 				counter++;
 			}
 			else{
-				assert(Utility.compareCollections(gap.getNamedIndividualsWithGap(), gap_Individuals));
-				assert(Utility.compareCollections(gap.getNamedInstancesOfNothing(), gap_IndividualsNothing));
-				assert(Utility.compareCollections(gap.getPredicatesWithGap(), gap_Predicates));
+				assertTrue(Utility.compareCollections(gap.getNamedIndividualsWithGap(), gap_Individuals));
+				assertTrue(Utility.compareCollections(gap.getNamedInstancesOfNothing(), gap_IndividualsNothing));
+				assertTrue(Utility.compareCollections(gap.getPredicatesWithGap(), gap_Predicates));
 				counter++;
 			}
 		}
-		
+		System.out.println();
+		System.out.println();
 	}
 
 }

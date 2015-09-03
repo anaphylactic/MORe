@@ -19,6 +19,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
+import util.TestUtility;
 
 
 public class OWLNormalization4MOReTest {
@@ -83,7 +84,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(ObjectSomeValuesFrom(<R> owl:Thing) <A>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -113,7 +114,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(owl:Thing ObjectAllValuesFrom(<R> <A>))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -151,7 +152,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(ObjectIntersectionOf(<A> ObjectSomeValuesFrom(<R> <B>)) <internal:def#0>)");
 			control.add("SubClassOf(<internal:def#0> <C>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -185,7 +186,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(<A> ObjectUnionOf(<C> ObjectAllValuesFrom(<R> <B>)))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -220,7 +221,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(<A> ObjectUnionOf(<C> <D> ObjectSomeValuesFrom(<R> <B>)))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -255,7 +256,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(<A> ObjectUnionOf(<C> <D> ObjectSomeValuesFrom(<R> ObjectComplementOf(<B>))))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -288,7 +289,7 @@ public class OWLNormalization4MOReTest {
 			control.add("ClassAssertion(<internal:def#0> <i>)");
 			control.add("SubClassOf(ObjectSomeValuesFrom(<R> <internal:def#0>) <A>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -321,7 +322,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#0> ObjectOneOf(<i>))");
 			control.add("SubClassOf(owl:Thing ObjectUnionOf(<B> ObjectAllValuesFrom(<S> <internal:def#0>)))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -354,7 +355,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#0> ObjectOneOf(<i>))");
 			control.add("SubClassOf(<A> ObjectSomeValuesFrom(<R> <internal:def#0>))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -389,7 +390,7 @@ public class OWLNormalization4MOReTest {
 			control.add("ClassAssertion(ObjectComplementOf(<internal:def#0>) <i>)");
 			control.add("SubClassOf(<A> ObjectSomeValuesFrom(<R> <internal:def#0>))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -422,7 +423,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(<A> ObjectUnionOf(<C> ObjectSomeValuesFrom(<R> ObjectComplementOf(<B>))))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -456,7 +457,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(<A> ObjectUnionOf(<C> ObjectSomeValuesFrom(<R> <B>)))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -490,7 +491,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(<A> ObjectUnionOf(<C> ObjectAllValuesFrom(<R> <B>)))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -524,7 +525,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(ObjectIntersectionOf(<A> ObjectSomeValuesFrom(<R> <B>)) <C>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -559,7 +560,7 @@ public class OWLNormalization4MOReTest {
 			control.add("ClassAssertion(<A> <i>)");
 			control.add("ObjectPropertyAssertion(<R> <i> <i>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -595,7 +596,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubObjectPropertyOf(<Q> InverseOf(<S>))");
 			control.add("SubObjectPropertyOf(InverseOf(<T>) <U>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -633,7 +634,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubObjectPropertyOf(ObjectPropertyChain( <S> <T> ) <S>)");
 			control.add("SubObjectPropertyOf(ObjectPropertyChain( <P> <Q> ) <R>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -664,7 +665,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(ObjectHasSelf(<R>) <A>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -695,7 +696,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(<A> ObjectHasSelf(<R>))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -728,7 +729,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(owl:Thing ObjectMaxCardinality(1 <R> owl:Thing))");
 			control.add("SubClassOf(owl:Thing ObjectMaxCardinality(1 InverseOf(<S>) owl:Thing))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -790,7 +791,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#MORe2> <D>)");
 			control.add("SubClassOf(<internal:def#MORe1> <D>)");
 
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -823,7 +824,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#MORe0> ObjectSomeValuesFrom(<Q> <internal:def#MORe2>))");
 			control.add("SubClassOf(ObjectIntersectionOf(<internal:def#MORe1> <internal:def#MORe2>) owl:Nothing)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -854,7 +855,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(owl:Thing <B>)");
 
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -885,7 +886,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(owl:Thing ObjectUnionOf(<D> ObjectMaxCardinality(2 <S> <C>)))");
 
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -916,7 +917,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(owl:Thing ObjectUnionOf(<A> ObjectMaxCardinality(1 <Q> owl:Thing)))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -947,7 +948,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(ObjectIntersectionOf(<A> ObjectSomeValuesFrom(<R> <B>)) owl:Nothing)");
 			
-			checkEqualSets(actual, control);			
+			TestUtility.checkEqualSets(actual, control);			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}
@@ -977,7 +978,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(<C> ObjectMaxCardinality(3 <S> <D>))");
 
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1008,7 +1009,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(<E> ObjectMaxCardinality(2 <Q> owl:Thing))");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1039,7 +1040,7 @@ public class OWLNormalization4MOReTest {
 			Set<String> control = new HashSet<String>();
 			control.add("SubClassOf(owl:Thing ObjectUnionOf(<B> ObjectSomeValuesFrom(<R> <A>)))");
 
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1076,7 +1077,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#MORe0> ObjectSomeValuesFrom(<S> <internal:def#MORe1>))");
 
 
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1111,7 +1112,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(ObjectIntersectionOf(<internal:def#MORe1> <internal:def#MORe2>) owl:Nothing)");
 
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1146,7 +1147,7 @@ public class OWLNormalization4MOReTest {
 			control.add("TransitiveObjectProperty(<R>)");
 
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1182,7 +1183,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#transEncoding0> ObjectAllValuesFrom(<R> <internal:def#transEncoding0>))");
 			control.add("SubClassOf(<internal:def#transEncoding0> <B>)");
 						
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1221,7 +1222,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#transEncoding0> ObjectAllValuesFrom(<S> <internal:def#transEncoding0>))");
 			control.add("SubClassOf(<internal:def#transEncoding0> <B>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1258,7 +1259,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(ObjectSomeValuesFrom(<R> <internal:def#transEncoding0>) <internal:def#transEncoding0>)");
 			control.add("SubClassOf(<internal:def#transEncoding0> <B>)");
 
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1297,7 +1298,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(ObjectSomeValuesFrom(<S> <internal:def#transEncoding0>) <internal:def#transEncoding0>)");
 			control.add("SubClassOf(<internal:def#transEncoding0> <B>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1333,7 +1334,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(ObjectSomeValuesFrom(<R> <internal:def#transEncoding0>) <internal:def#transEncoding0>)");
 			control.add("SubClassOf(ObjectIntersectionOf(<B> <internal:def#transEncoding0>) owl:Nothing)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1372,7 +1373,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(ObjectSomeValuesFrom(<R> <internal:def#transEncoding1>) <internal:def#transEncoding1>)");
 			control.add("SubClassOf(<internal:def#transEncoding1> <internal:def#transEncoding0>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1411,7 +1412,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#transEncoding1> ObjectAllValuesFrom(<R> <internal:def#transEncoding1>))");
 			control.add("SubClassOf(<internal:def#transEncoding1> <B>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1450,7 +1451,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#transEncoding0> ObjectAllValuesFrom(<R> <internal:def#transEncoding0>))");
 			control.add("SubClassOf(<internal:def#transEncoding0> <B>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1490,7 +1491,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#transEncoding1> ObjectAllValuesFrom(<R> <internal:def#transEncoding1>))");
 			control.add("SubClassOf(<internal:def#transEncoding1> <B>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1535,7 +1536,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(ObjectSomeValuesFrom(<R> <internal:def#transEncoding1>) <internal:def#transEncoding1>)");
 			control.add("SubClassOf(<internal:def#transEncoding1> <B>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1582,7 +1583,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(ObjectSomeValuesFrom(<R> <internal:def#transEncoding3>) <internal:def#transEncoding3>)");
 			control.add("SubClassOf(<internal:def#transEncoding3> <internal:def#transEncoding2>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1625,7 +1626,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(ObjectSomeValuesFrom(<R> <internal:def#transEncoding2>) <internal:def#transEncoding2>)");
 			control.add("SubClassOf(<internal:def#transEncoding2> <internal:def#transEncoding0>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1667,7 +1668,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#transEncoding0> ObjectAllValuesFrom(<R> <internal:def#transEncoding0>))");
 			control.add("SubClassOf(<internal:def#transEncoding0> <B>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1716,7 +1717,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#transEncoding1> ObjectAllValuesFrom(<R> <internal:def#transEncoding1>))");
 			control.add("SubClassOf(<internal:def#transEncoding1> <B>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1763,7 +1764,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(ObjectSomeValuesFrom(<R> <internal:def#transEncoding1>) <internal:def#transEncoding1>)");
 			control.add("SubClassOf(<internal:def#transEncoding1> <internal:def#transEncoding0>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1799,7 +1800,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#rangeIntegClass0> <B>)");
 			control.add("SubClassOf(<internal:def#rangeIntegClass0> <C>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1841,7 +1842,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#rangeIntegClass0> <D>)");
 			control.add("SubObjectPropertyOf(<R> <S>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1887,7 +1888,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubClassOf(<internal:def#rangeIntegClass0> <B>)");
 			control.add("SubClassOf(<internal:def#rangeIntegClass0> <E>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1931,7 +1932,7 @@ public class OWLNormalization4MOReTest {
 			control.add("SubObjectPropertyOf(<R> InverseOf(<S>))");
 			control.add("SubClassOf(ObjectSomeValuesFrom(<S> owl:Thing) <E>)");
 			
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -1961,7 +1962,7 @@ public class OWLNormalization4MOReTest {
 
 			Set<String> control = new HashSet<String>();
 
-			checkEqualSets(actual, control);
+			TestUtility.checkEqualSets(actual, control);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -2015,7 +2016,7 @@ public class OWLNormalization4MOReTest {
 		control.add("SubClassOf(<internal:def#rangeIntegClass1> <G>)");
 		control.add("SubClassOf(<B> ObjectSomeValuesFrom(<Q> <internal:def#rangeIntegClass1>))");
 
-		checkEqualSets(actual, control);
+		TestUtility.checkEqualSets(actual, control);
 		
 	}
 	
@@ -2071,7 +2072,7 @@ public class OWLNormalization4MOReTest {
 		control.add("TransitiveObjectProperty(<S>)");
 		control.add("SubClassOf(owl:Thing ObjectAllValuesFrom(<S> <G>))");
 		
-		checkEqualSets(actual, control);
+		TestUtility.checkEqualSets(actual, control);
 	}
 	
 	
@@ -2115,17 +2116,4 @@ public class OWLNormalization4MOReTest {
 		}
 
 	}
-	
-	
-	
-	private void checkEqualSets(Set<String> actual, Set<String> control){
-		Set<String> diff1 = new HashSet<String>(actual);
-		diff1.removeAll(control);
-		Set<String> diff2 = new HashSet<String>(control);
-		diff2.removeAll(actual);
-		
-		Assert.assertTrue(diff1.isEmpty());
-		Assert.assertTrue(diff2.isEmpty());
-	}
-	
 }
