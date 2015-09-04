@@ -8,6 +8,7 @@ import java.util.Set;
 import org.semanticweb.more.pagoda.IndividualManager;
 import org.semanticweb.more.pagoda.rules.DatalogProgram4Classification;
 import org.semanticweb.more.util.Logger_MORe;
+import org.semanticweb.more.util.Utility;
 import org.semanticweb.owlapi.model.OWLClass;
 
 import uk.ac.ox.cs.JRDFox.JRDFStoreException;
@@ -19,6 +20,7 @@ import uk.ac.ox.cs.pagoda.multistage.treatment.Treatment;
 import uk.ac.ox.cs.pagoda.multistage.treatment.Treatment4Classification;
 import uk.ac.ox.cs.pagoda.query.AnswerTuple;
 import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly;
+import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality;
 import uk.ac.ox.cs.pagoda.reasoner.light.BasicQueryEngine;
 import uk.ac.ox.cs.pagoda.reasoner.light.RDFoxTripleManager;
 import uk.ac.ox.cs.pagoda.rules.Program;
@@ -49,13 +51,13 @@ public class MultiStageQueryEngine extends StageQueryEngine {//TODO recover dist
 	public void materialiseMultiStage(
 			DatalogProgram4Classification dProgram, 
 			String skolemAboxFileName,
-			GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly gap, 
+			GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality gap, 
 			BasicQueryEngine lowerStore,
 			boolean skipRLprogram) {//inspired by materialiseRestrictedly in this class originally
 		if (!skipRLprogram)
 			materialise("lower program", new File(dProgram.getRLprogram().getOutputPath()));
 		addExtraTriplesFromLowerStore(lowerStore, indManager);
-		lowerStore.importRDFData("skolem data", skolemAboxFileName);
+		importRDFData("skolem data", skolemAboxFileName);
 		Program generalProgram = dProgram.getGeneral();
 		MultiStageUpperProgram4Classification program = new MultiStageUpperProgram4Classification(generalProgram, dProgram.getUpperBottomStrategy());
 		Treatment4Classification treatment = new Treatment4Classification(this, program);
@@ -63,12 +65,11 @@ public class MultiStageQueryEngine extends StageQueryEngine {//TODO recover dist
 		treatment.dispose();
 	}
 
-	private void materialiseMultiStage(MultiStageUpperProgram program, Treatment4Classification treatment, GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly gap) {
+	private void materialiseMultiStage(MultiStageUpperProgram program, Treatment4Classification treatment, GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality gap) {
 		String programName = "multi-stage upper program"; 
 		Logger_MORe.logInfo(name + " store is materialising " + programName +  " ..."); 
 		Timer t = new Timer();
 
-		String datalogProgram = program.getDatalogRuleText();
 		long tripleCountBeforeMat = 0; 
 
 		program.saveDatalogRules(Utility_PAGOdA.TempDirectory + "/multi_datalog.dlog");
@@ -77,7 +78,6 @@ public class MultiStageQueryEngine extends StageQueryEngine {//TODO recover dist
 		int iteration = 0;
 		Timer subTimer = new Timer(); 
 		boolean incrementally = false; 
-		TupleIterator iter = null;
 		try {
 			while (true) {
 				long oldTripleCount = store.getTriplesCount();
@@ -89,16 +89,19 @@ public class MultiStageQueryEngine extends StageQueryEngine {//TODO recover dist
 
 				if (incrementally)
 //					gap.compile(null);
-					((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly) gap).compileFromFile(null);
+					((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality) gap).compileFromFile(null);
 				else{
 					tripleCountBeforeMat = oldTripleCount;
-					((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly) gap).compileFromFile(new File(Utility_PAGOdA.TempDirectory + "/multi_datalog.dlog"));
+					((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality) gap).compileFromFile(new File(Utility_PAGOdA.TempDirectory + "/multi_datalog.dlog"));
 //					gap.compile(datalogProgram);
 				}
 //				Utility.printStoreToFile(store, "multistageMaterialisationIter"+iteration);
 //				Utility.printPredicatesSummaryOfStoreToFile(store, "multistageMaterialisationIter"+iteration);
-//				Utility.printAllTriples(getDataStore());
-				gap.registerGapTuples();
+				Utility.printAllTriples(getDataStore());
+				gap.registerGapTuples(); //PAGOdA does not add the gap when doing multistage because the multistage store cannot be used for tracking, but we want to register
+				//which instantiation individuals have a gap and which don't to detect classes that may be fully classified at this point.
+				//this is an alternative to addGapBackTo that registers information about which instantiation individuals have a gap but
+				//doesn't add gap tuples to the store. 
 
 				long tripleCount = store.getTriplesCount(); 
 				Logger_MORe.logDebug(name + " store after materialising datalog-rules: " + tripleCount + " (" + (tripleCount - oldTripleCount) + " new)");

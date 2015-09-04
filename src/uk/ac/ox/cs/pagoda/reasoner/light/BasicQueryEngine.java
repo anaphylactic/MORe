@@ -26,6 +26,7 @@ import uk.ac.ox.cs.pagoda.owl.OWLHelper;
 import uk.ac.ox.cs.pagoda.query.AnswerTuples;
 import uk.ac.ox.cs.pagoda.query.GapByStore4ID;
 import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly;
+import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality;
 import uk.ac.ox.cs.pagoda.rules.DatalogProgram;
 import uk.ac.ox.cs.pagoda.rules.Program;
 import uk.ac.ox.cs.pagoda.util.ConjunctiveQueryHelper;
@@ -50,7 +51,7 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 //		String program = dProgram.getUpper().toString();
 		try {
 //			gap.compile(program);
-			((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
+			((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
 			gap.addBackTo();
 			getDataStore().clearRulesAndMakeFactsExplicit();
 		} catch (JRDFStoreException e) {
@@ -66,7 +67,7 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 //			String program = dProgram.getUpper().toString();
 			try {
 //				gap.compile(program);
-				((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
+				((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
 				gap.addBackTo();
 				getDataStore().clearRulesAndMakeFactsExplicit();
 			} catch (JRDFStoreException e) {
@@ -328,8 +329,8 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 	
 	private UFS<String> equalityGroups = null; 
 	
-	public UFS<String> getEqualityGroups() {
-		if (equalityGroups != null) return equalityGroups; 
+	public UFS<String> getEqualityGroups(boolean reuse) {
+		if (reuse && equalityGroups != null) return equalityGroups; 
 
 		equalityGroups = new UFS<String>(); 
 		
@@ -424,9 +425,7 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 	public void materialise(DatalogProgram4Classification dProgram, String skolemDataFileName, GapByStore4ID gap, BasicQueryEngine lowerStore, IndividualManager indManager, boolean skipRLprogram) {
 		if (!skipRLprogram)
 			materialise("lower program", new File(dProgram.getRLprogram().getOutputPath()));
-		
 		addExtraTriplesFromLowerStore(lowerStore, indManager);
-		
 		importRDFData("skolem ABox", skolemDataFileName);
 		
 //		Utility.exportStore(store,"output/storeBeforeUpperMaterialisation.ttl");
@@ -434,7 +433,7 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 //		String program = dProgram.getUpper().toString();
 		try {
 //			gap.compile(program);
-			((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
+			((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
 			gap.addBackTo();
 			getDataStore().clearRulesAndMakeFactsExplicit();
 		} catch (JRDFStoreException e) {

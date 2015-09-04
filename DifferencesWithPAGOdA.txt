@@ -1,0 +1,2 @@
+
+- In multistage materialisation, PAGOdA does not look at the gap at all because the multistage store cannot be used for tracking. For us, however, it is still interesting to look at the gap in this case so we can detect individuals that are already fully classified after this point; in that case we reduce the signature considered and the module considered for the tracking phase.

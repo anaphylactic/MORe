@@ -18,7 +18,9 @@ import uk.ac.ox.cs.pagoda.util.MyPrefixes;
 import uk.ac.ox.cs.pagoda.util.Timer;
 
 public class GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly extends GapByStore4ID {
-	//registers info about which instantiation individuals are mentioned in unary facts in the gap, and which (unary) predicates are asserted about them  
+	//in addition to adding annotated copies of ALL tuples in the gap, as superclass does,
+	//registers info about which instantiation individuals are mentioned in unary facts in 
+	//the gap, and which (unary) predicates are asserted about them  
 
 	Set<String> namedIndividualsWithGap = new HashSet<String>();
 	LinkedList<String> namedInstancesOfNothing = new LinkedList<String>();
@@ -68,14 +70,11 @@ public class GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly extends
 	public boolean hasNext() {
 		if (iterator == null) return false; 
 		try {
-//			tuple = new AnswerTupleID(3);
 			tuple = new long[3]; 
 			Long predicate; 
 			for (; multi != 0; multi = iterator.getNext()) {
 				for (int i = 0; i < 3; ++i)
 					tuple[i] = (int) iterator.getResourceID(i);
-				
-//				Logger_MORe.logDebug("gap tuple: " + tripleManager.getRawTerm(tuple[0]) + " " + tripleManager.getRawTerm(tuple[1]) + " " + tripleManager.getRawTerm(tuple[2]));
 				
 				boolean isRDFtype = isRDF_TYPE();
 				if (isRDFtype) {
@@ -142,9 +141,11 @@ public class GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly extends
 	}
 	
 	public void registerGapTuples() throws JRDFStoreException { 
+		//instead of addBackTo when working in the multistage store to register info about the gap for instantiation individuals 
+		//without adding gap tuples to the store  
 		Timer t = new Timer(); 
 		while (hasNext()) {
-			next(); //no need to do anything else, the gaps are added inside method hasNext();
+			next(); //no need to do anything else here, the gap information is processed inside method hasNext();
 		}
 		Logger_MORe.logDebug("current store finished registering predicates and named constants in gap tuples in " + t.duration() + "."); 
 	}

@@ -31,7 +31,7 @@ import uk.ac.ox.cs.pagoda.multistage.MultiStageQueryEngine;
 import uk.ac.ox.cs.pagoda.query.AnswerTuple;
 import uk.ac.ox.cs.pagoda.query.AnswerTuples;
 import uk.ac.ox.cs.pagoda.query.ClassificationQueryType;
-import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly;
+import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality;
 import uk.ac.ox.cs.pagoda.query.MultiQueryRecord;
 import uk.ac.ox.cs.pagoda.query.QueryManager;
 import uk.ac.ox.cs.pagoda.query.QueryRecord;
@@ -161,10 +161,10 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 			}
 		}
 	}
-	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly lazyGap;
-	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly gap;
-	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly[] getGaps(){//this is for debugging purposes
-		return new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly[]{lazyGap, gap};
+	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality lazyGap;
+	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality gap;
+	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality[] getGaps(){//this is for debugging purposes
+		return new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality[]{lazyGap, gap};
 	}
 	@Override
 	public boolean preprocess() {//returns true if the ontology is already fully classified, false otherwise
@@ -173,13 +173,11 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		String name = "instantiation ABox", instantiationDatafile = importedData.toString(); 
 
 		lowerStore.importRDFData(name, instantiationDatafile);
-//		lowerStore.materialise("rl program", program.getRLprogram().toString());
 		lowerStore.materialise("rl program", new File(program.getRLprogram().getOutputPath()), true);
 		lowerStore.importRDFData("skolem data", aBoxManager.skolemABox_fileName);
-//		lowerStore.materialise("el program", program.getELprogram().toString(), false);
 		lowerStore.materialise("el program", new File(program.getELprogram().getOutputPath()), false);
 		
-//		Utility.printAllTriples(lowerStore.getDataStore());
+		Utility.printAllTriples(lowerStore.getDataStore());
 		Logger_MORe.logInfo("The number of sameAs assertions in RL lower store: " + lowerStore.getSameAsNumber());
 
 		updateUnsatisfiableClasses();
@@ -188,7 +186,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 
 		if (lazyUpperStore != null) {
 			lazyUpperStore.importRDFData(name, instantiationDatafile);//if initialABox has been updated it will still be in the same file.
-			lazyGap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly(lazyUpperStore);
+			lazyGap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(lazyUpperStore, lowerStore);
 			lazyUpperStore.materialiseMultiStage(program, aBoxManager.skolemABox_fileName, lazyGap, lowerStore, false);
 
 			//before launching the trackingStore check if the gap is empty
@@ -207,7 +205,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 				}
 
 				trackingStore.importRDFData(name, instantiationDatafile);
-				gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly(trackingStore); 
+				gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
 				trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager, false);
 
 //				Utility.printAllTriples(trackingStore.getDataStore());
@@ -230,7 +228,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		}
 		else{
 			trackingStore.importRDFData(name, instantiationDatafile);
-			gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly(trackingStore); 
+			gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
 			trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager, false);
 			
 //			Utility.printAllTriples(trackingStore.getDataStore());

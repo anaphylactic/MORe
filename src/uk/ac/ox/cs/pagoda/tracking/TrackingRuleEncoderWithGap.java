@@ -1,13 +1,16 @@
 package uk.ac.ox.cs.pagoda.tracking;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.semanticweb.HermiT.model.Atom;
 import org.semanticweb.HermiT.model.AtomicConcept;
 import org.semanticweb.HermiT.model.AtomicRole;
 import org.semanticweb.HermiT.model.DLClause;
 import org.semanticweb.HermiT.model.Variable;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -32,8 +35,9 @@ public class TrackingRuleEncoderWithGap extends TrackingRuleEncoder {
 		Variable X = Variable.create("X"); 
 		AtomicRole trackingSameAs = AtomicRole.create(Namespace.EQUALITY + "_tn");  
 		OWLOntology onto = program.getOntology();
-		Atom[] headAtom = new Atom[] {Atom.create(trackingSameAs, X, X)}, bodyAtom; 
-		for (OWLClass cls: onto.getClassesInSignature(true)) {
+		Atom[] headAtom = new Atom[] {Atom.create(trackingSameAs, X, X)}, bodyAtom;
+		for (OWLOntology o: onto.getImportsClosure())
+		for (OWLClass cls: o.getClassesInSignature(true)) {
 			String clsIRI = cls.getIRI().toString();
 			unaryPredicates.add(clsIRI); 
 			bodyAtom = new Atom[] {
@@ -43,7 +47,12 @@ public class TrackingRuleEncoderWithGap extends TrackingRuleEncoder {
 		}
 		
 		Variable Y = Variable.create("Y"); 
-		for (OWLObjectProperty prop: onto.getObjectPropertiesInSignature(true)) {
+		Set<OWLObjectProperty> setOfProperties = new HashSet<OWLObjectProperty>();
+		for (OWLOntology o: onto.getImportsClosure())
+			for (OWLObjectProperty prop: o.getObjectPropertiesInSignature())
+				setOfProperties.add(prop); 
+		setOfProperties.add(onto.getOWLOntologyManager().getOWLDataFactory().getOWLObjectProperty(IRI.create(Namespace.INEQUALITY)));
+		for (OWLObjectProperty prop: setOfProperties) {
 			String propIRI = prop.getIRI().toString();
 			binaryPredicates.add(propIRI); 
 			AtomicRole trackingRole = AtomicRole.create(propIRI + "_tn"); 

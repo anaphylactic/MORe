@@ -95,8 +95,13 @@ public class RLPlusOntology implements KnowledgeBase {
 		
 		try {
 			String path = OWLHelper.getOntologyPath(inputOntology);
-			String name = path.substring(path.lastIndexOf(Utility_PAGOdA.FILE_SEPARATOR)); 
-			String originalExtension = name.substring(name.lastIndexOf("."));
+			String name; 
+			if (path.contains(Utility_PAGOdA.JAVA_FILE_SEPARATOR))
+				name = path.substring(path.lastIndexOf(Utility_PAGOdA.JAVA_FILE_SEPARATOR));
+			else 
+				name = path.substring(path.lastIndexOf(":")); 
+
+			String originalExtension = name.lastIndexOf(".") >= 0 ? name.substring(name.lastIndexOf(".")) : "";
 			
 			if (inputOntology.getOntologyID().getOntologyIRI() == null)
 				ontologyIRI = "http://www.example.org/anonymous-ontology" + originalExtension; 

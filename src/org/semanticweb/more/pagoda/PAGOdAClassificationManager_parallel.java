@@ -12,6 +12,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import uk.ac.manchester.cs.owlapi.modularity.ModuleType;
 import uk.ac.ox.cs.pagoda.query.ClassificationQueryType;
 import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly;
+import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality;
 import uk.ac.ox.cs.pagoda.util.MyPrefixes;
 
 public class PAGOdAClassificationManager_parallel extends PAGOdAClassificationManager {
@@ -26,7 +27,7 @@ public class PAGOdAClassificationManager_parallel extends PAGOdAClassificationMa
 	public boolean preprocess() {//returns true if the ontology is already fully classified, false otherwise
 		t.reset(); 
 		Logger_MORe.logInfo("Preprocessing ontology for classification... ");
-		String name = "data", datafile = importedData.toString(); 
+		String name = "instantiation ABox", datafile = importedData.toString(); 
 
 		ForkJoinPool executor = new ForkJoinPool();
 		
@@ -38,10 +39,11 @@ public class PAGOdAClassificationManager_parallel extends PAGOdAClassificationMa
 			executor.execute(lowerLauncher);
 			executor.execute(lazyLauncher);
 			lowerLauncher.join();
+			lowerStore.importRDFData("skolem data", aBoxManager.skolemABox_fileName);
 			lowerStore.materialise("el program", new File(program.getELprogram().getOutputPath()), false);
 			updateUnsatisfiableClasses();
 			lazyLauncher.join();
-			lazyGap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly(lazyUpperStore);
+			lazyGap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(lazyUpperStore, lowerStore);
 			lazyUpperStore.materialiseMultiStage(program, aBoxManager.skolemABox_fileName, lazyGap, lowerStore, true);
 
 			//before launching the trackingStore check if the gap is empty
@@ -61,7 +63,7 @@ public class PAGOdAClassificationManager_parallel extends PAGOdAClassificationMa
 					aBoxManager.updateInstantiationABox(classesToClassify);
 
 				trackingStore.importRDFData(name, datafile);
-				gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly(trackingStore); 
+				gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
 				trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager, false);
 
 				//if there are any contradictions in the lazyUpperStore then we need to consider the predicatesWithGap given by the trackingStore
@@ -84,9 +86,10 @@ public class PAGOdAClassificationManager_parallel extends PAGOdAClassificationMa
 			executor.execute(lowerLauncher);
 			executor.execute(trackingLauncher);
 			lowerLauncher.join();
+			lowerStore.importRDFData("skolem data", aBoxManager.skolemABox_fileName);
 			lowerStore.materialise("el program", new File(program.getELprogram().getOutputPath()), false);
 			trackingLauncher.join();
-			gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly(trackingStore); 
+			gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
 			trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager, true);
 			
 			predicatesWithGap = gap.getPredicatesWithGap(); 
@@ -142,12 +145,10 @@ public class PAGOdAClassificationManager_parallel extends PAGOdAClassificationMa
 		private static final long serialVersionUID = -4948868182713198490L;
 		String name;
 		String datafile;
-		boolean doELprogramSequentially;
 
 		public LazyUpperStoreLauncher(String name, String datafile){
 			this.name = name;
 			this.datafile = datafile;
-			this.doELprogramSequentially = doELprogramSequentially;
 		}
 
 
@@ -176,7 +177,6 @@ public class PAGOdAClassificationManager_parallel extends PAGOdAClassificationMa
 		private static final long serialVersionUID = -4948868182713198490L;
 		String name;
 		String datafile;
-		boolean doELprogramSequentially;
 
 		public TrackingStoreLauncher(String name, String datafile){
 			this.name = name;

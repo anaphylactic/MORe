@@ -2,7 +2,6 @@ package uk.ac.ox.cs.pagoda.query;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +16,7 @@ import uk.ac.ox.cs.pagoda.reasoner.light.BasicQueryEngine;
 import uk.ac.ox.cs.pagoda.reasoner.light.RDFoxQueryEngine;
 import uk.ac.ox.cs.pagoda.reasoner.light.RDFoxTripleManager;
 import uk.ac.ox.cs.pagoda.util.MyPrefixes;
+import uk.ac.ox.cs.pagoda.util.Namespace;
 import uk.ac.ox.cs.pagoda.util.Timer;
 //import uk.ac.ox.cs.pagoda.multistage.AnswerTupleID;
 
@@ -27,7 +27,7 @@ public class GapByStore4ID extends GapTupleIterator<long[]> {
 	protected TupleIterator iterator = null; 
 	
 //	AnswerTupleID tuple;
-	long[] tuple; 
+	protected long[] tuple; 
 	protected BasicQueryEngine m_engine; 
 	protected DataStore m_store;
 	protected RDFoxTripleManager tripleManager; 
@@ -38,7 +38,7 @@ public class GapByStore4ID extends GapTupleIterator<long[]> {
 		tripleManager = new RDFoxTripleManager(m_store, false); 
 	}
 	
-	long multi; 
+	protected long multi; 
 	
 	@Override
 	public void compile(String program) throws JRDFStoreException {
@@ -86,26 +86,20 @@ public class GapByStore4ID extends GapTupleIterator<long[]> {
 	public boolean hasNext() {
 		if (iterator == null) return false; 
 		try {
-//			tuple = new AnswerTupleID(3);
 			tuple = new long[3]; 
 			Long predicate; 
 			for (; multi != 0; multi = iterator.getNext()) {
 				for (int i = 0; i < 3; ++i)
-//					tuple.setTerm(i, (int) iterator.getResourceID(i));
 					tuple[i] = (int) iterator.getResourceID(i); 
 				
 				if (isRDF_TYPE()) {
-//					predicate = getGapPredicateID(tuple.getTerm(2));
 					predicate = getGapPredicateID(tuple[2]); 
 					if (predicate == null) continue; 
-//					tuple.setTerm(2, predicate);
 					tuple[2] = predicate; 
 				}
 				else {
-//					predicate = getGapPredicateID(tuple.getTerm(1));
 					predicate = getGapPredicateID(tuple[1]); 
 					if (predicate == null) continue;  
-//					tuple.setTerm(1, predicate);
 					tuple[1] = predicate; 
 				}
 				return true; 
@@ -159,7 +153,8 @@ public class GapByStore4ID extends GapTupleIterator<long[]> {
 	}
 
 	protected boolean isAuxPredicate(String originalPredicate) {
-		return originalPredicate.contains("_AUX");
+		if (originalPredicate.equals(Namespace.EQUALITY_QUOTED) || originalPredicate.equals("<" + Namespace.OWL_NS + "Nothing>")) return false;
+		return originalPredicate.contains("_AUX") || originalPredicate.startsWith("<" + Namespace.OWL_NS);
 	}
 
 	protected boolean isRDF_TYPE() {
@@ -172,7 +167,6 @@ public class GapByStore4ID extends GapTupleIterator<long[]> {
 		Logger_MORe.logError("Unsupported operation!"); 
 	}
 	
-	private boolean valid = false;
 
 	@Override
 	public void save(String file) {
@@ -190,7 +184,6 @@ public class GapByStore4ID extends GapTupleIterator<long[]> {
 			++tupleCounter;
 			tripleManager.addTripleByID(tuple);
 		}
-		valid = true; 
 
 		long tripleCounter = m_store.getTriplesCount(); 
 		Logger_MORe.logDebug("There are " + tupleCounter + " tuples in the gap between lower and upper bound materialisation.", 
@@ -205,7 +198,6 @@ public class GapByStore4ID extends GapTupleIterator<long[]> {
 		}
 	}
 		
-	public boolean isValid() {return valid; }
 
 	@Override
 	public void addTo(DataStore store) throws JRDFStoreException {
