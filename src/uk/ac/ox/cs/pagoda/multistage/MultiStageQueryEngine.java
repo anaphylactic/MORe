@@ -52,12 +52,12 @@ public class MultiStageQueryEngine extends StageQueryEngine {//TODO recover dist
 			DatalogProgram4Classification dProgram, 
 			String skolemAboxFileName,
 			GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality gap, 
-			BasicQueryEngine lowerStore,
-			boolean skipRLprogram) {//inspired by materialiseRestrictedly in this class originally
-		if (!skipRLprogram)
-			materialise("lower program", new File(dProgram.getRLprogram().getOutputPath()));
+			BasicQueryEngine lowerStore) {//inspired by materialiseRestrictedly in this class originally
 		addExtraTriplesFromLowerStore(lowerStore, indManager);
-		importRDFData("skolem data", skolemAboxFileName);
+		
+		Utility.printAllTriples(getDataStore());
+		
+		importRDFData("Skolem data", skolemAboxFileName);
 		Program generalProgram = dProgram.getGeneral();
 		MultiStageUpperProgram4Classification program = new MultiStageUpperProgram4Classification(generalProgram, dProgram.getUpperBottomStrategy());
 		Treatment4Classification treatment = new Treatment4Classification(this, program);

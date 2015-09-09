@@ -30,7 +30,6 @@ import uk.ac.ox.cs.pagoda.hermit.DLClauseHelper;
 import uk.ac.ox.cs.pagoda.multistage.MultiStageQueryEngine;
 import uk.ac.ox.cs.pagoda.query.AnswerTuple;
 import uk.ac.ox.cs.pagoda.query.AnswerTuples;
-import uk.ac.ox.cs.pagoda.query.ClassificationQueryType;
 import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality;
 import uk.ac.ox.cs.pagoda.query.MultiQueryRecord;
 import uk.ac.ox.cs.pagoda.query.QueryManager;
@@ -58,13 +57,13 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 
 	boolean multiStageTag;
 
-	BasicQueryEngine lowerStore = null;
-	MultiStageQueryEngine lazyUpperStore = null;  
-	BasicQueryEngine trackingStore = null;
-	TrackingRuleEncoder encoder;
+	BasicQueryEngine lowerStore;
+	BasicQueryEngine trackingStore;
+	MultiStageQueryEngine lazyUpperStore;  
+	TrackingRuleEncoder trackingEncoder;
 
 	IndividualManager indManager = new IndividualManager();
-	ABoxManager aBoxManager;
+	ABoxManager aBoxManager = new ABoxManager(indManager);
 	QueryManager4Classification queryManager = new QueryManager4Classification();
 
 	DatalogProgram4Classification program;
@@ -73,62 +72,52 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 	List<String> individualsWithContradictionsInLazyStore = new LinkedList<String>();
 	Collection<String> predicatesWithGap = new HashSet<String>();
 	Collection<String> individualsWithGap = new HashSet<String>();
-
-	//	Map<AtomicConcept, Collection<AtomicConcept>> classificationGap = new HashMap<AtomicConcept, Collection<AtomicConcept>>();
 	Set<OWLClass> unsatisfiableClasses = new HashSet<OWLClass>();
-
 	int nUndecidedSubsumptionPairs;
 
 	protected Timer t = new Timer();
 
-	boolean error = false;
-
-	public static PAGOdAClassificationManager create(OWLOntology o, Set<OWLClass> classesToClassify, boolean multiStage, boolean parallel){
-		if (parallel)
-			return new PAGOdAClassificationManager_parallel(o, classesToClassify, multiStage);
-		else 
-			return new PAGOdAClassificationManager(o, classesToClassify, multiStage);
-	}
-
+	
+	
 	public PAGOdAClassificationManager(OWLOntology o, Set<OWLClass> classesToClassify, boolean multiStage){
-		multiStageTag = multiStage; 
-		dispose();
-		lowerStore = new BasicQueryEngine("rl-lower-bound");
-		trackingStore = new BasicQueryEngine("tracking"); //don't want any multiStage in my tracking store getUpperStore("tracking", false);
-		aBoxManager = new ABoxManager(indManager);
 		this.classesToClassify = classesToClassify;
+		this.multiStageTag = multiStage; 
+		dispose();
 		classesWithGap = classesToClassify;
+		lowerStore = new BasicQueryEngine("lower-bound");
+		trackingStore = new BasicQueryEngine("tracking");
 		new File(Utility_PAGOdA.TempDirectory).mkdirs();
 		loadOntology(o);
-		reducedOntology = ontology;
-		currentOntologySize = ontology.getAxiomCount();
 	}
 	public PAGOdAClassificationManager(OWLOntology o, Set<OWLClass> classesToClassify){
 		this(o, classesToClassify, true);
 	}
 	public void loadOntology(OWLOntology o){
+		Logger_MORe.logInfo("loading ontology");
 		ontology = o; 
 		program = new DatalogProgram4Classification(ontology, false);
-		//		if (Logger_MORe.getLevel() != null && Logger_MORe.getLevel().isGreaterOrEqual(Level.DEBUG)){
-		Logger_MORe.logInfo("going to save programs");
 		program.getUpper().save();
 		program.getGeneral().save();
-		program.getRLprogram().save();
-		program.getELprogram().save();			
-		//		}
+		program.getLower().save();			
 
 		if (multiStageTag && !program.getGeneral().isHorn())  
 			lazyUpperStore =  new MultiStageQueryEngine("lazy-upper-bound", true, indManager);
 		else
 			multiStageTag = false;
+		
+		reducedOntology = ontology;
+		currentOntologySize = ontology.getAxiomCount();
 	}
 
 	protected boolean initData(){
-		importData(program.getAdditionalDataFile());//assertional part of the input ontology - should probably be empty in our case? TODO check
-		String initialAboxFile =  aBoxManager.createInstantiationABox(classesToClassify);
+		importData(program.getAdditionalDataFile());//assertional part of the input ontology
+		//it cannot contain any binary predicate assertions because MORe ignores the ABox of the input ontology.
+		//it could, however, potentially contain some unary predicate assertions resulting from the normalisation of the input ontology 
+		String initialAboxFile = aBoxManager.createInstantiationABox(classesToClassify);
 		if (initialAboxFile == null) return false;
 		importData(initialAboxFile);
-		aBoxManager.createSkolemABox(program.getAdditionalABoxFacts()); //we don't add the Skolem ABox to the group of ABoxes that need to be loaded into the triplestore from the very beginning because it needs to be added at a slightly different time
+		String skolemAboxFile = aBoxManager.createSkolemABox(program.getAdditionalABoxFacts());
+		if (skolemAboxFile != null) importData(skolemAboxFile);
 		return true;
 	}
 
@@ -168,25 +157,24 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 	public boolean preprocess() {//returns true if the ontology is already fully classified, false otherwise
 		t.reset(); 
 		Logger_MORe.logInfo("Preprocessing ontology for classification... ");
-		String name = "instantiation ABox", instantiationDatafile = importedData.toString(); 
+		String name = "initial ABox", initialDatafiles = importedData.toString(); 
 
-		lowerStore.importRDFData(name, instantiationDatafile);
-		lowerStore.materialise("rl program", new File(program.getRLprogram().getOutputPath()), true);
-		lowerStore.importRDFData("skolem data", aBoxManager.skolemABox_fileName);
-		lowerStore.materialise("el program", new File(program.getELprogram().getOutputPath()), false);
+		lowerStore.importRDFData(name, initialDatafiles);
+		lowerStore.materialise("el program", new File(program.getLower().getOutputPath()), false);
 
 		Utility.printAllTriples(lowerStore.getDataStore());
-		Logger_MORe.logInfo("The number of sameAs assertions in RL lower store: " + lowerStore.getSameAsNumber());
+		Logger_MORe.logInfo("The number of sameAs assertions in lower store: " + lowerStore.getSameAsNumber());
 
 		updateUnsatisfiableClasses();
 		if (!unsatisfiableClasses.isEmpty())
 			aBoxManager.updateInstantiationABox(classesToClassify);
 
 		if (lazyUpperStore != null) {
-			lazyUpperStore.importRDFData(name, instantiationDatafile);//if initialABox has been updated it will still be in the same file.
 			lazyGap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(lazyUpperStore, lowerStore);
-			lazyUpperStore.materialiseMultiStage(program, aBoxManager.skolemABox_fileName, lazyGap, lowerStore, false);
+			lazyUpperStore.materialiseMultiStage(program, aBoxManager.skolemABox_fileName, lazyGap, lowerStore);
 
+			Utility.printAllTriples(lazyUpperStore.getDataStore());
+			
 			//before launching the trackingStore check if the gap is empty
 			if (lazyGap.getNamedIndividualsWithGap().isEmpty()){
 				return true;
@@ -202,11 +190,8 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 						aBoxManager.updateSkolemABox(program.getAdditionalABoxFacts());
 				}
 
-				trackingStore.importRDFData(name, instantiationDatafile);
 				gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
-				trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager, false);
-
-				//				Utility.printAllTriples(trackingStore.getDataStore());
+				trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager);
 
 				//if there are any contradictions in the lazyUpperStore then we need to consider the predicatesWithGap given by the trackingStore
 				if (individualsWithContradictionsInLazyStore.isEmpty()){
@@ -225,21 +210,13 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 			}
 		}
 		else{
-			trackingStore.importRDFData(name, instantiationDatafile);
 			gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
-			trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager, false);
+			trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager);
 
-			//			Utility.printAllTriples(trackingStore.getDataStore());
-
-			//			System.out.println("named individualsWithGap");
-			//			for (String s :gap.getNamedIndividualsWithGap())
-			//				System.out.println(s);
-			//			System.out.println();
-
-			if (gap.getNamedIndividualsWithGap().isEmpty())
+			predicatesWithGap = gap.getPredicatesWithGap();
+			if (predicatesWithGap .isEmpty())
 				return true;
 			else{
-				predicatesWithGap = gap.getPredicatesWithGap(); 
 				individualsWithGap = gap.getNamedIndividualsWithGap();
 				if (individualsWithGap.size() < classesToClassify.size()){
 					updateClassesWithGapFromIndividualsWithGap();
@@ -409,14 +386,14 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 
 
 	protected OWLOntology getAxiomsToFinish() throws OWLOntologyCreationException{
-		if (encoder == null){
+		if (trackingEncoder == null){
 			if (!program.getGeneral().isHorn() && multiStageTag)
-				encoder = new TrackingRuleEncoderDisjVar14Classification(program.getUpper(), trackingStore);
+				trackingEncoder = new TrackingRuleEncoderDisjVar14Classification(program.getUpper(), trackingStore);
 			else
-				encoder = new TrackingRuleEncoderWithGap4Classification(program.getUpper(), trackingStore);
+				trackingEncoder = new TrackingRuleEncoderWithGap4Classification(program.getUpper(), trackingStore);
 		}
 
-		MultiQueryTracker tracker = new MultiQueryTracker(encoder, lowerStore, new MultiQueryRecord(queryRecords));
+		MultiQueryTracker tracker = new MultiQueryTracker(trackingEncoder, lowerStore, new MultiQueryRecord(queryRecords));
 
 		OWLOntology knowledgebase; 
 		t.reset(); 
@@ -606,7 +583,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 
 
 	public void dispose(){
-		if (encoder != null) encoder.dispose();
+		if (trackingEncoder != null) trackingEncoder.dispose();
 		if (lowerStore != null) lowerStore.dispose();
 		if (lazyUpperStore != null) lazyUpperStore.dispose();
 		if (trackingStore != null) trackingStore.dispose();

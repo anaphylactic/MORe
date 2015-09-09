@@ -422,11 +422,9 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 	
 	
 	
-	public void materialise(DatalogProgram4Classification dProgram, String skolemDataFileName, GapByStore4ID gap, BasicQueryEngine lowerStore, IndividualManager indManager, boolean skipRLprogram) {
-		if (!skipRLprogram)
-			materialise("lower program", new File(dProgram.getRLprogram().getOutputPath()));
+	public void materialise(DatalogProgram4Classification dProgram, String skolemDataFileName, GapByStore4ID gap, BasicQueryEngine lowerStore, IndividualManager indManager) {
 		addExtraTriplesFromLowerStore(lowerStore, indManager);
-		importRDFData("skolem ABox", skolemDataFileName);
+		importRDFData("Skolem data", skolemDataFileName);
 		
 //		Utility.exportStore(store,"output/storeBeforeUpperMaterialisation.ttl");
 		
@@ -447,10 +445,12 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 		Logger_MORe.logInfo("adding triples from the lower store");
 		int counter = 0;
 		long t = System.currentTimeMillis();
-		for (String unaryPred : getDerivedPredicates(lowerStore)){
+		for (String unaryPred : getPresentPredicates(lowerStore)){
 			TupleIterator derivedTuples = null;
 			try {
-				derivedTuples = lowerStore.internal_evaluateAgainstIDBs("select distinct ?x where { ?x <"
+//				derivedTuples = lowerStore.internal_evaluateAgainstIDBs("select distinct ?x where { ?x <"
+//						+ Namespace.RDF_TYPE + "> " + unaryPred + " . }");
+				derivedTuples = lowerStore.internal_evaluate("select distinct ?x where { ?x <"
 						+ Namespace.RDF_TYPE + "> " + unaryPred + " . }");
 				for (long multi = derivedTuples.open(); multi != 0; multi = derivedTuples.getNext()) {
 					String i = RDFoxTripleManager.getRawTerm(derivedTuples.getResource(0));
@@ -472,6 +472,28 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 				if (derivedTuples != null) derivedTuples.dispose();
 			}
 		}
+	}
+	
+	protected Set<String> getPresentPredicates(BasicQueryEngine store) { //copied from QueryTracker
+		Timer t = new Timer();
+		Set<String> unaryPredicates = new HashSet<String>();
+		TupleIterator derivedTuples = null;
+		try {
+			derivedTuples = store.internal_evaluate("select distinct ?z where { ?x <"
+					+ Namespace.RDF_TYPE + "> ?z . }");
+			for (long multi = derivedTuples.open(); multi != 0; multi = derivedTuples.getNext()) {
+				String p = RDFoxTripleManager.getRawTerm(derivedTuples.getResource(0));
+				if (!Utility.isRDFoxInternalPredicate(p))
+					unaryPredicates.add(p);
+			}
+		} catch (JRDFStoreException e) {
+			e.printStackTrace();
+		} finally {
+			if (derivedTuples != null)
+				derivedTuples.dispose();
+		}
+		Logger_MORe.logDebug(t.duration() + " to find derived predicates");
+		return unaryPredicates;
 	}
 	
 	protected Set<String> getDerivedPredicates(BasicQueryEngine store) { //copied from QueryTracker

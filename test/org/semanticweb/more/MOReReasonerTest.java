@@ -58,17 +58,17 @@ public class MOReReasonerTest {
 				hermit.precomputeInferences(InferenceType.CLASS_HIERARCHY);
 
 				MOReReasonerConfiguration[] configs = new MOReReasonerConfiguration[]{
-						new MOReReasonerConfiguration(false, false, false, true, false, true),
-						new MOReReasonerConfiguration(true, false, false, true, false, true),
-						new MOReReasonerConfiguration(false, true, false, true, false, true),
-						new MOReReasonerConfiguration(false, false, true, true, false, true),
-						new MOReReasonerConfiguration(true, true, true, true, false, true),
-						new MOReReasonerConfiguration(false, false, false, true, true, true),
-						new MOReReasonerConfiguration(true, false, false, true, true, true),
-						new MOReReasonerConfiguration(false, true, false, true, true, true),
-						new MOReReasonerConfiguration(false, false, true, true, true, true),
-						new MOReReasonerConfiguration(true, true, true, true, true, true),
-						new MOReReasonerConfiguration(true, true, true, true, true, true),
+						new MOReReasonerConfiguration(false, false, false, false, true),
+						new MOReReasonerConfiguration(true, false, false, false, true),
+						new MOReReasonerConfiguration(false, true, false, false, true),
+						new MOReReasonerConfiguration(false, false, true, false, true),
+						new MOReReasonerConfiguration(true, true, true, false, true),
+						new MOReReasonerConfiguration(false, false, false, true, true),
+						new MOReReasonerConfiguration(true, false, false, true, true),
+						new MOReReasonerConfiguration(false, true, false, true, true),
+						new MOReReasonerConfiguration(false, false, true, true, true),
+						new MOReReasonerConfiguration(true, true, true, true, true),
+						new MOReReasonerConfiguration(true, true, true, true, true),
 				};
 
 				Logger_MORe.setLevel(Level.OFF);

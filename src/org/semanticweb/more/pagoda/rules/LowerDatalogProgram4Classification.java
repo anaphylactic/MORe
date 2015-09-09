@@ -2,7 +2,6 @@ package org.semanticweb.more.pagoda.rules;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -27,89 +26,74 @@ import uk.ac.ox.cs.pagoda.util.Utility_PAGOdA;
 
 public class LowerDatalogProgram4Classification extends LowerDatalogProgram {
 
-	String profile;
-	
-	public LowerDatalogProgram4Classification(String prfl){
+	public LowerDatalogProgram4Classification(){
 		super(false);
-		if (prfl.equals("EL")){
-			profile = prfl;
-			m_approx = new IgnoreNonELandOverApproxExist4Classification();
-		}
-		else{
-			profile = "RL";
-			m_approx = new IgnoreBothAndHasValue();
-		}
+		m_approx = new IgnoreNonELandOverApproxExist4Classification();
 	}
 
-	
+
 	public void loadRestrictedELontology(OWLOntology o) {
-		if (profile == "RL"){
-			super.load(o, new UnaryBottom());
-		} else{
-			OWLOntologyManager manager = o.getOWLOntologyManager();
-			OWLDataFactory factory = manager.getOWLDataFactory();
-			Set<OWLEntity> wholeSignature = new HashSet<OWLEntity>(o.getSignature());
-			for (OWLEntity e : wholeSignature)
-				manager.addAxiom(o, factory.getOWLDeclarationAxiom(e));
-			
-			OWLProfileReport report = new OWL2ELProfile().checkOntology(o);
-			
-			OWLOntology filteredOntology;
-			try {
-				filteredOntology = manager.createOntology(IRI.create(manager.getOntologyDocumentIRI(o).toString().replace(".owl", "-EL.owl")));
-				manager.addAxioms(filteredOntology, o.getAxioms());
-				for (OWLProfileViolation violation : report.getViolations()){
-//					Logger_MORe.logTrace(violation.toString());
-					manager.removeAxiom(filteredOntology, violation.getAxiom());
-				}
-				Set<OWLAxiom> nominalOrReflexivityAxioms = new HashSet<OWLAxiom>();
-				for (OWLAxiom ax : filteredOntology.getAxioms()){
-					if (!ax.getIndividualsInSignature().isEmpty())
-						nominalOrReflexivityAxioms.add(ax);
-					else{
-						for (OWLClassExpression exp : ax.getNestedClassExpressions()){
-							if (exp instanceof OWLObjectHasSelf){
-								nominalOrReflexivityAxioms.add(ax);
-								break;
-							}
+		OWLOntologyManager manager = o.getOWLOntologyManager();
+		OWLDataFactory factory = manager.getOWLDataFactory();
+		Set<OWLEntity> wholeSignature = new HashSet<OWLEntity>(o.getSignature());
+		for (OWLEntity e : wholeSignature)
+			manager.addAxiom(o, factory.getOWLDeclarationAxiom(e));
+
+		OWLProfileReport report = new OWL2ELProfile().checkOntology(o);
+
+		OWLOntology filteredOntology;
+		try {
+			filteredOntology = manager.createOntology(IRI.create(manager.getOntologyDocumentIRI(o).toString().replace(".owl", "-EL.owl")));
+			manager.addAxioms(filteredOntology, o.getAxioms());
+			for (OWLProfileViolation violation : report.getViolations()){
+				//					Logger_MORe.logTrace(violation.toString());
+				manager.removeAxiom(filteredOntology, violation.getAxiom());
+			}
+			Set<OWLAxiom> nominalOrReflexivityAxioms = new HashSet<OWLAxiom>();
+			for (OWLAxiom ax : filteredOntology.getAxioms()){
+				if (!ax.getIndividualsInSignature().isEmpty())
+					nominalOrReflexivityAxioms.add(ax);
+				else{
+					for (OWLClassExpression exp : ax.getNestedClassExpressions()){
+						if (exp instanceof OWLObjectHasSelf){
+							nominalOrReflexivityAxioms.add(ax);
+							break;
 						}
 					}
-						
 				}
-				for (OWLAxiom ax : nominalOrReflexivityAxioms)
-					manager.removeAxiom(filteredOntology, ax);
 
-
-				this.botStrategy = new UnaryBottom(); 
-				RLPlusOntology owlOntology = new RLPlusOntology(); 
-				owlOntology.load(filteredOntology, new NullaryBottom());
-				owlOntology.simplify();
-
-				ontology = owlOntology.getTBox(); 
-
-				String ontologyPath = OWLHelper.getOntologyPath(ontology); 
-				ontologyDirectory = ontologyPath.substring(0, ontologyPath.lastIndexOf(Utility_PAGOdA.FILE_SEPARATOR));
-				clausify();
-			} catch (OWLOntologyCreationException e) {
-				e.printStackTrace();
 			}
-			
+			for (OWLAxiom ax : nominalOrReflexivityAxioms)
+				manager.removeAxiom(filteredOntology, ax);
+
+
+			this.botStrategy = new UnaryBottom(); 
+			RLPlusOntology owlOntology = new RLPlusOntology(); 
+			owlOntology.load(filteredOntology, new NullaryBottom());
+			owlOntology.simplify();
+
+			ontology = owlOntology.getTBox(); 
+
+			String ontologyPath = OWLHelper.getOntologyPath(ontology); 
+			ontologyDirectory = ontologyPath.substring(0, ontologyPath.lastIndexOf(Utility_PAGOdA.FILE_SEPARATOR));
+			clausify();
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void transform() {
 		super.transform();
-		if (profile.equals("EL"))
-			clauses.addAll(((IgnoreNonELandOverApproxExist4Classification) m_approx).getAuxiliaryClauses());
+		clauses.addAll(((IgnoreNonELandOverApproxExist4Classification) m_approx).getAuxiliaryClauses());
 		//we don;t need to keep auxiliaryClauses separate from the other clauses here - as we do in the UpperProgram4Classification - because we are not going to do any tracking based on this program
 	}
-	
+
 	@Override
 	public String getOutputPath() {
-		return getDirectory() + "lower" + profile + ".dlog";
+		return getDirectory() + "lower.dlog";
 	}
-	
+
 	public void setDependencyGraph(PredicateDependency graph){
 		dependencyGraph = graph;
 	}

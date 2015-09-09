@@ -313,11 +313,10 @@ public class MOReReasoner implements OWLReasoner {
 
 		stats.updateNaxiomsForPAGOdA(compmodule_onto.getAxiomCount());
 		Timer t = new Timer();
-		pagoda = PAGOdAClassificationManager.create(
+		pagoda = new PAGOdAClassificationManager(
 				compmodule_onto, 
 				lSignatureManager.getCompSignatureClasses(), 
-				configuration.useMultiStageMaterialisation, 
-				configuration.useParallelStores);
+				configuration.useMultiStageMaterialisation);
 		OWLOntology axiomsToFinish = pagoda.classify();		
 		stats.updatePAGOdAtime(t.duration());
 		stats.updatePairsDecidedByHermiT(pagoda.getNundecidedSubsumptionPairs());
