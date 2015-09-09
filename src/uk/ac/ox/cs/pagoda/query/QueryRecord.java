@@ -461,4 +461,8 @@ public class QueryRecord {
 		return soundAnswerTuples;
 	}
 	
+	public Set<AnswerTuple> getGapAnswerTuples() {
+		return gapAnswerTuples;
+	}
+	
 }

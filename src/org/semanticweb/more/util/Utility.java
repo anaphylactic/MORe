@@ -71,7 +71,7 @@ public class Utility {
 				String t2 = iter.getGroundTerm(1).toString();
 				String t3 = iter.getGroundTerm(2).toString();
 				if (!(t2.equals(MyPrefixes.PAGOdAPrefixes.expandText("owl:sameAs")) && t1.equals(t3)))
-					Logger_MORe.logInfo(t1 + " " + t2 + " " + t3);
+					Logger_MORe.logTrace(t1 + " " + t2 + " " + t3);
 			}
 		}
 		catch (JRDFStoreException e){

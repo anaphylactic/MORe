@@ -320,7 +320,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 				}
 				else{
 					iter.remove();
-					Logger_MORe.logError("SHOULD WE BE HERE?? individualsWithGap should only contains individuals that do indeed hasve a gap");
+					Logger_MORe.logError("SHOULD WE BE HERE?? individualsWithGap should only contain individuals that do indeed have a gap");
 				}
 				t.reset();				
 			}
@@ -567,6 +567,60 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 				OWLClass superClass = factory.getOWLClass(IRI.create(Utility.removeAngleBrackets(tuple.getRawTerm(0))));
 				if (!superClass.equals(c))
 					ret.add(superClass);
+			}
+		}
+		return ret;
+	}
+	
+
+	public Set<OWLClass> getPotentialSuperClasses(OWLClass c){
+		Set<OWLClass> ret = new HashSet<OWLClass>();
+		
+		if ( c.isOWLNothing() || unsatisfiableClasses.contains(c)) return ret;
+		
+		OWLOntologyManager manager = ontology.getOWLOntologyManager();
+		OWLDataFactory factory = manager.getOWLDataFactory();
+		Individual i = indManager.getInstanceIndividual(c, false);
+		if (i != null){
+			String query = "select ?z where { " +
+					i.toString() + " " + MyPrefixes.PAGOdAPrefixes.expandText("rdf:type") + " ?z }";
+			QueryRecord queryRecord = getQueryManager().create(query);
+			AnswerTuples answer = null;
+			try {
+				if (!multiStageTag || (individualsWithContradictionsInLazyStore != null && !individualsWithContradictionsInLazyStore.isEmpty())){
+					answer = trackingStore.evaluate(queryRecord.getQueryText(), queryRecord.getAnswerVariables());
+
+					if (multiStageTag){
+						Set<AnswerTuple> intersection = new HashSet<AnswerTuple>();
+						AnswerTuples answerLazy = null;
+						try{
+
+							answerLazy = lazyUpperStore.evaluate(queryRecord.getQueryText(), queryRecord.getAnswerVariables());
+							for (; answerLazy.isValid(); answerLazy.moveNext())
+								intersection.add(answerLazy.getTuple());
+							for (; answer.isValid(); answer.moveNext())
+								if (individualsWithContradictionsInLazyStore.contains(answer.getTuple().getRawTerm(0)))
+									intersection.add(answer.getTuple());
+							queryRecord.updateUpperBoundAnswers(intersection);
+						}
+						finally{
+							if (answerLazy != null) answer.dispose();
+						}
+					}
+					else queryRecord.updateUpperBoundAnswers(answer);
+				}
+				else{//we only need to retrieve the upperAnswers from the lazyUpperStore
+					answer = lazyUpperStore.evaluate(queryRecord.getQueryText(), queryRecord.getAnswerVariables());
+					Logger_MORe.logTrace(t.duration());
+					queryRecord.updateUpperBoundAnswers(answer);
+				}
+			} finally {
+				if (answer != null) answer.dispose();
+			}
+
+			for (AnswerTuple tuple : queryRecord.getGapAnswerTuples()){
+				OWLClass superClass = factory.getOWLClass(IRI.create(Utility.removeAngleBrackets(tuple.getRawTerm(0))));
+				ret.add(superClass);
 			}
 		}
 		return ret;

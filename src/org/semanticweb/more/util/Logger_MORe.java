@@ -51,6 +51,7 @@ public class Logger_MORe {
 
 	public static void setLevel(Level level){
 		logger.setLevel(level);
+		logInfo("Level set to " + level.toString());
 	}
 
 }
