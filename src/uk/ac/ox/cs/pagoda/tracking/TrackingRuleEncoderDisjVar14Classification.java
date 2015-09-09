@@ -7,6 +7,7 @@ import org.semanticweb.HermiT.model.AtomicConcept;
 import org.semanticweb.HermiT.model.AtomicRole;
 import org.semanticweb.HermiT.model.DLClause;
 import org.semanticweb.HermiT.model.DLPredicate;
+import org.semanticweb.more.pagoda.QueryManager4Classification;
 import org.semanticweb.more.pagoda.rules.UpperDatalogProgram4Classification;
 import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.more.util.Utility;
@@ -60,82 +61,21 @@ public class TrackingRuleEncoderDisjVar14Classification extends
 			long rdftype = tripleManager.getResourceID(AtomicRole.create(Namespace.RDF_TYPE));
 			for (AnswerTuple answer; answerTuples.isValid(); answerTuples.moveNext()) {
 				answer = answerTuples.getTuple();
-				if (query.getQueryType() == ClassificationQueryType.INDIVIDUAL){
-					predicate = tripleManager.getResourceID(Utility.removeAngleBrackets(getTrackingPredicate(prefixes.expandIRI(answer.getRawTerm(0)))));
-					individual = tripleManager.getResourceID(Utility.removeAngleBrackets(query.getQueryEntity()));
+				if (QueryManager4Classification.isBottomQuery(query)){
+					predicate = tripleManager.getResourceID(Utility.removeAngleBrackets(getTrackingPredicate(query.getQueryEntity())));
+					individual = tripleManager.getResourceID(prefixes.expandIRI(Utility.removeAngleBrackets(answer.getRawTerm(0))));					
 				}
 				else{
-					predicate = tripleManager.getResourceID(Utility.removeAngleBrackets(getTrackingPredicate(query.getQueryEntity())));
-					individual = tripleManager.getResourceID(prefixes.expandIRI(Utility.removeAngleBrackets(answer.getRawTerm(0)))); 
+					predicate = tripleManager.getResourceID(Utility.removeAngleBrackets(getTrackingPredicate(prefixes.expandIRI(answer.getRawTerm(0)))));
+					individual = tripleManager.getResourceID(Utility.removeAngleBrackets(query.getQueryEntity()));
 				}
 				triple = new long[] { individual, rdftype, predicate };
 				addedData.add(triple);
 				tripleManager.addTripleByID(triple);
-				//					System.out.println("To be removed ... \n" + tripleManager.getRawTerm(tripleManager.getResourceID(prefixes.expandIRI(answer.getRawTerm(0)))) + " " + tripleManager.getRawTerm(rdftype) + " " + tripleManager.getRawTerm(predicate)); 
 			}
 			answerTuples.dispose();
 		}
-
-//		Logger_MORe.logInfo(new HashSet<int[]>(addedData).size() + " triples are added into the store.");
-		
-//		///
-//		RDFoxTripleManager tripleManager = new RDFoxTripleManager(store.getDataStore(), false);
-//		for (int[] triple : addedData)
-//			System.out.println(tripleManager.getRawTerm(triple[0]) + tripleManager.getRawTerm(triple[1]) + tripleManager.getRawTerm(triple[2]));
-//		///
 	}
-//	@Override
-//	public void encodingClassificationQuery(QueryRecord query) {
-//		DLClause queryClause = query.getClause(); 
-//		AnswerTuples answerTuples = query.getGapAnswers(); 
-//		String[] answerVariables = query.getAnswerVariables(); 
-//		
-//		String queryPredicate = QueryPredicate + query.getQueryID(); 
-//		Atom newAtom; 
-//		if (answerVariables.length == 1) {
-//			AtomicConcept queryConcept = AtomicConcept.create(queryPredicate);
-//			newAtom = Atom.create(queryConcept, Variable.create(answerVariables[0]));
-//		}
-//		else {
-//			AtomicRole queryRole = AtomicRole.create(queryPredicate); 
-//			newAtom = Atom.create(queryRole, Variable.create(answerVariables[0]), Variable.create(answerVariables[1]));  
-//		}
-//		
-//		Atom[] bodyAtoms = queryClause.getBodyAtoms();
-//		Atom[] newBodyAtoms = new Atom[queryClause.getBodyLength() + 1]; 
-//		for (int i = 0; i < bodyAtoms.length; ++i)
-//			newBodyAtoms[i + 1] = bodyAtoms[i]; 
-//		newBodyAtoms[0] = newAtom;
-//		
-//		for (Atom bodyAtom: bodyAtoms) 
-//			addQueryRule(bodyAtom, newBodyAtoms);
-//
-//		RDFoxTripleManager tripleManager = new RDFoxTripleManager(store.getDataStore(), false);
-//		MyPrefixes prefixes = MyPrefixes.PAGOdAPrefixes;
-//		int[] triple; 
-//		int predicate = tripleManager.getResourceID(AtomicConcept.create(queryPredicate));   
-//		int rdftype = tripleManager.getResourceID(AtomicRole.create(Namespace.RDF_TYPE));
-//		if (answerVariables.length == 1) {		
-//			for (AnswerTuple answer; answerTuples.isValid(); answerTuples.moveNext()) {
-//				answer = answerTuples.getTuple();
-//				triple = new int[] { tripleManager.getResourceID(prefixes.expandIRI(answer.getRawTerm(0))), rdftype, predicate }; 
-//				addedData.add(triple);
-//				tripleManager.addTripleByID(triple);
-////				System.out.println("To be removed ... \n" + tripleManager.getRawTerm(tripleManager.getResourceID(prefixes.expandIRI(answer.getRawTerm(0)))) + " " + tripleManager.getRawTerm(rdftype) + " " + tripleManager.getRawTerm(predicate)); 
-//			}
-//		}
-//		else {
-//			for (AnswerTuple answer; answerTuples.isValid(); answerTuples.moveNext()) {
-//				answer = answerTuples.getTuple();
-//				triple = new int[] { tripleManager.getResourceID(prefixes.expandIRI(answer.getRawTerm(0))), predicate, tripleManager.getResourceID(prefixes.expandIRI(answer.getRawTerm(1))) }; 
-//				addedData.add(triple);
-//				tripleManager.addTripleByID(triple);
-//			}
-//		}
-//		answerTuples.dispose();
-//
-//		Logger_MORe.logInfo(addedData.size() + " triples are added into the store.");
-//	}
 	
 	@Override
 	public void encodingAuxiliaryRule(DLClause clause) {

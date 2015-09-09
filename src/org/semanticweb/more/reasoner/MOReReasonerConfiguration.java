@@ -17,7 +17,6 @@ public class MOReReasonerConfiguration implements OWLReasonerConfiguration{
 	public final boolean useMultiStageMaterialisation;
 //	public final boolean useImprovedELlowerBoundRules;
 	public final boolean useRDFox;
-	public final ClassificationQueryType queryType;
 	public final boolean saveOntologyForOWL2Reasoner;
 	public final String suffixForSavedOntology;
 	
@@ -27,7 +26,6 @@ public class MOReReasonerConfiguration implements OWLReasonerConfiguration{
 		this.eliminateForgettableRoles = true;
 		this.useParallelStores = true;
 		this.useMultiStageMaterialisation = true;
-		this.queryType = ClassificationQueryType.INDIVIDUAL;
 		this.useRDFox = false;
 		this.saveOntologyForOWL2Reasoner = false;
 		this.suffixForSavedOntology = null;
@@ -40,7 +38,6 @@ public class MOReReasonerConfiguration implements OWLReasonerConfiguration{
 		this.eliminateForgettableRoles = true;
 		this.useParallelStores = true;
 		this.useMultiStageMaterialisation = true;
-		this.queryType = ClassificationQueryType.INDIVIDUAL;
 		this.saveOntologyForOWL2Reasoner = false;
 		this.suffixForSavedOntology = null;
 	}
@@ -56,7 +53,6 @@ public class MOReReasonerConfiguration implements OWLReasonerConfiguration{
 		this.useMultiStageMaterialisation = useMultiStageMaterialisation;
 //		this.useImprovedELlowerBoundRules = useImprovedELlowerBoundRules;
 		this.useRDFox = useRDFox;
-		this.queryType = ClassificationQueryType.INDIVIDUAL;
 		this.saveOntologyForOWL2Reasoner = false;
 		this.suffixForSavedOntology = null;
 	}
@@ -64,8 +60,7 @@ public class MOReReasonerConfiguration implements OWLReasonerConfiguration{
 	public MOReReasonerConfiguration(boolean integrateRanges, boolean rewriteInverses,
 			boolean eliminateForgettableRoles, boolean useParallelStores,
 			boolean useMultiStageMaterialisation, //boolean useImprovedELlowerBoundRules,
-			boolean useRDFox, ClassificationQueryType queryType,
-			boolean saveOntologyForOWL2Reasoner,
+			boolean useRDFox, boolean saveOntologyForOWL2Reasoner,
 			String suffix){
 		this.integrateRanges = integrateRanges;
 		this.rewriteInverses = rewriteInverses;
@@ -74,7 +69,6 @@ public class MOReReasonerConfiguration implements OWLReasonerConfiguration{
 		this.useMultiStageMaterialisation = useMultiStageMaterialisation;
 //		this.useImprovedELlowerBoundRules = useImprovedELlowerBoundRules;
 		this.useRDFox = useRDFox;
-		this.queryType = queryType;
 		this.saveOntologyForOWL2Reasoner = saveOntologyForOWL2Reasoner;
 		this.suffixForSavedOntology = suffix;
 	}

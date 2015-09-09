@@ -6,6 +6,7 @@ import org.semanticweb.HermiT.model.AtomicConcept;
 import org.semanticweb.HermiT.model.AtomicRole;
 import org.semanticweb.HermiT.model.DLClause;
 import org.semanticweb.HermiT.model.DLPredicate;
+import org.semanticweb.more.pagoda.QueryManager4Classification;
 import org.semanticweb.more.pagoda.rules.UpperDatalogProgram4Classification;
 import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.more.util.Utility;
@@ -57,13 +58,13 @@ TrackingRuleEncoder4Classification {
 			long rdftype = tripleManager.getResourceID(AtomicRole.create(Namespace.RDF_TYPE));
 			for (AnswerTuple answer; answerTuples.isValid(); answerTuples.moveNext()) {
 				answer = answerTuples.getTuple();
-				if (query.getQueryType() == ClassificationQueryType.INDIVIDUAL){
-					predicate = tripleManager.getResourceID(Utility.removeAngleBrackets(getTrackingPredicate(prefixes.expandIRI(answer.getRawTerm(0)))));
-					individual = tripleManager.getResourceID(Utility.removeAngleBrackets(query.getQueryEntity()));
+				if (QueryManager4Classification.isBottomQuery(query)){
+					predicate = tripleManager.getResourceID(Utility.removeAngleBrackets(getTrackingPredicate(query.getQueryEntity())));
+					individual = tripleManager.getResourceID(Utility.removeAngleBrackets(prefixes.expandIRI(answer.getRawTerm(0))));					
 				}
 				else{
-					predicate = tripleManager.getResourceID(Utility.removeAngleBrackets(getTrackingPredicate(query.getQueryEntity())));
-					individual = tripleManager.getResourceID(Utility.removeAngleBrackets(prefixes.expandIRI(answer.getRawTerm(0)))); 
+					predicate = tripleManager.getResourceID(Utility.removeAngleBrackets(getTrackingPredicate(prefixes.expandIRI(answer.getRawTerm(0)))));
+					individual = tripleManager.getResourceID(Utility.removeAngleBrackets(query.getQueryEntity()));
 				}
 				triple = new long[] { individual, rdftype, predicate };
 				addedData.add(triple);

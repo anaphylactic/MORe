@@ -57,7 +57,6 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 	Set<OWLClass> classesWithGap;
 
 	boolean multiStageTag;
-	ClassificationQueryType queryType;
 
 	BasicQueryEngine lowerStore = null;
 	MultiStageQueryEngine lazyUpperStore = null;  
@@ -77,23 +76,22 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 
 	//	Map<AtomicConcept, Collection<AtomicConcept>> classificationGap = new HashMap<AtomicConcept, Collection<AtomicConcept>>();
 	Set<OWLClass> unsatisfiableClasses = new HashSet<OWLClass>();
-	
+
 	int nUndecidedSubsumptionPairs;
 
 	protected Timer t = new Timer();
 
 	boolean error = false;
 
-	public static PAGOdAClassificationManager create(OWLOntology o, Set<OWLClass> classesToClassify, boolean multiStage, ClassificationQueryType qType, boolean parallel){
+	public static PAGOdAClassificationManager create(OWLOntology o, Set<OWLClass> classesToClassify, boolean multiStage, boolean parallel){
 		if (parallel)
-			return new PAGOdAClassificationManager_parallel(o, classesToClassify, multiStage, qType);
+			return new PAGOdAClassificationManager_parallel(o, classesToClassify, multiStage);
 		else 
-			return new PAGOdAClassificationManager(o, classesToClassify, multiStage, qType);
+			return new PAGOdAClassificationManager(o, classesToClassify, multiStage);
 	}
 
-	public PAGOdAClassificationManager(OWLOntology o, Set<OWLClass> classesToClassify, boolean multiStage, ClassificationQueryType qType){
+	public PAGOdAClassificationManager(OWLOntology o, Set<OWLClass> classesToClassify, boolean multiStage){
 		multiStageTag = multiStage; 
-		queryType = qType;
 		dispose();
 		lowerStore = new BasicQueryEngine("rl-lower-bound");
 		trackingStore = new BasicQueryEngine("tracking"); //don't want any multiStage in my tracking store getUpperStore("tracking", false);
@@ -105,19 +103,19 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		reducedOntology = ontology;
 		currentOntologySize = ontology.getAxiomCount();
 	}
-	public PAGOdAClassificationManager(OWLOntology o, Set<OWLClass> classesToClassify, ClassificationQueryType qType){
-		this(o, classesToClassify, true, qType);
+	public PAGOdAClassificationManager(OWLOntology o, Set<OWLClass> classesToClassify){
+		this(o, classesToClassify, true);
 	}
 	public void loadOntology(OWLOntology o){
 		ontology = o; 
 		program = new DatalogProgram4Classification(ontology, false);
-//		if (Logger_MORe.getLevel() != null && Logger_MORe.getLevel().isGreaterOrEqual(Level.DEBUG)){
-			Logger_MORe.logInfo("going to save programs");
-			program.getUpper().save();
-			program.getGeneral().save();
-			program.getRLprogram().save();
-			program.getELprogram().save();			
-//		}
+		//		if (Logger_MORe.getLevel() != null && Logger_MORe.getLevel().isGreaterOrEqual(Level.DEBUG)){
+		Logger_MORe.logInfo("going to save programs");
+		program.getUpper().save();
+		program.getGeneral().save();
+		program.getRLprogram().save();
+		program.getELprogram().save();			
+		//		}
 
 		if (multiStageTag && !program.getGeneral().isHorn())  
 			lazyUpperStore =  new MultiStageQueryEngine("lazy-upper-bound", true, indManager);
@@ -176,7 +174,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		lowerStore.materialise("rl program", new File(program.getRLprogram().getOutputPath()), true);
 		lowerStore.importRDFData("skolem data", aBoxManager.skolemABox_fileName);
 		lowerStore.materialise("el program", new File(program.getELprogram().getOutputPath()), false);
-		
+
 		Utility.printAllTriples(lowerStore.getDataStore());
 		Logger_MORe.logInfo("The number of sameAs assertions in RL lower store: " + lowerStore.getSameAsNumber());
 
@@ -208,7 +206,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 				gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
 				trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager, false);
 
-//				Utility.printAllTriples(trackingStore.getDataStore());
+				//				Utility.printAllTriples(trackingStore.getDataStore());
 
 				//if there are any contradictions in the lazyUpperStore then we need to consider the predicatesWithGap given by the trackingStore
 				if (individualsWithContradictionsInLazyStore.isEmpty()){
@@ -230,14 +228,14 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 			trackingStore.importRDFData(name, instantiationDatafile);
 			gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
 			trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager, false);
-			
-//			Utility.printAllTriples(trackingStore.getDataStore());
-			
-//			System.out.println("named individualsWithGap");
-//			for (String s :gap.getNamedIndividualsWithGap())
-//				System.out.println(s);
-//			System.out.println();
-			
+
+			//			Utility.printAllTriples(trackingStore.getDataStore());
+
+			//			System.out.println("named individualsWithGap");
+			//			for (String s :gap.getNamedIndividualsWithGap())
+			//				System.out.println(s);
+			//			System.out.println();
+
 			if (gap.getNamedIndividualsWithGap().isEmpty())
 				return true;
 			else{
@@ -245,8 +243,8 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 				individualsWithGap = gap.getNamedIndividualsWithGap();
 				if (individualsWithGap.size() < classesToClassify.size()){
 					updateClassesWithGapFromIndividualsWithGap();
-//					aBoxManager.updateInstantiationABox(individualsWithGap);
-//					indManager.updateActiveIndexes(individualsWithGap);
+					//					aBoxManager.updateInstantiationABox(individualsWithGap);
+					//					indManager.updateActiveIndexes(individualsWithGap);
 					//I don't think we need to do the two things above in this case
 					updateUpperProgramWithGap(ModuleType.STAR);
 					//even if the program has changed after this there is not point in updating the skolemAbox file
@@ -266,78 +264,37 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		return classesWithGap;
 	}
 	protected boolean initQueryRecords(){
-		if (queryType == ClassificationQueryType.PREDICATE){
-			//		if (multiStageTag)
-			//			individualsWithGap.clear();//we are going to refine this here//NO MORE NECESSARY
-			for (String p : predicatesWithGap){
-				String query = "select ?x where { " +
-						"?x " + MyPrefixes.PAGOdAPrefixes.expandText("rdf:type") + " " + p + " }";
-				QueryRecord4Classification queryRecord = null;
-				//			if (p.contains("http://www.w3.org/2002/07/owl#Nothing")){
-				//				if (p.equals("<http://www.w3.org/2002/07/owl#Nothing>"))
-				//					queryRecord = getQueryManager().create(query,0);//we only need to consider the query for the normal bottom predicate - we only need to consider that one bottom predicate at all in general, but just in case
-				//			}//we don't want to treat the query for bottom any differently - we don't want answers with skolem individuals - so we won't specify its ID of 0 at creation time
-				//			else 
-				if (!Utility.isInternalPredicate(p))
-					queryRecord = ((QueryManager4Classification) getQueryManager()).create(query, ClassificationQueryType.PREDICATE, p);
-
-				if (queryRecord != null){
-
-					evaluate(queryRecord);
-					//				if (multiStageTag)
-					//					for (AnswerTuple tuple : queryRecord.getGapAnswerTuples()){
-					//						String s = tuple.getRawTerm(0);
-					//						if (multiStageTag && IndividualManager.isInstantiationIndividual(s))
-					//							individualsWithGap.add(s);
-					//					}//NO MORE NECESSARY
-
-					if (!queryRecord.processed()){
-						Logger_MORe.logDebug(queryRecord.getQueryEntity() + " has a Gap");
-						for (AnswerTuple tuple : queryRecord.getGapAnswerTuples())
-							Logger_MORe.logTrace(tuple.toString());
-						queryRecords.add(queryRecord);
-						nUndecidedSubsumptionPairs = nUndecidedSubsumptionPairs + queryRecord.getGapAnswerTuples().size();
-					}
-					t.reset();				
-				}
-			}			
+		Iterator<String> iter = individualsWithGap.iterator();
+		while (iter.hasNext()){
+			String ind = iter.next();
+			String query = "select ?z where { " +
+					ind + " " + MyPrefixes.PAGOdAPrefixes.expandText("rdf:type") + " ?z }";
+			QueryRecord4Classification queryRecord = ((QueryManager4Classification) getQueryManager()).create(query, ind);
+			evaluate(queryRecord);
+			if (!queryRecord.processed()){
+				Logger_MORe.logDebug(queryRecord.toString());
+				for (AnswerTuple tuple : queryRecord.getGapAnswerTuples())
+					Logger_MORe.logDebug(tuple.toString());
+				queryRecords.add(queryRecord);
+				classesWithGap.add(indManager.getClass4Individual(ind));
+				nUndecidedSubsumptionPairs = nUndecidedSubsumptionPairs + queryRecord.getGapAnswerTuples().size();
+			}
+			else{
+				iter.remove();
+				Logger_MORe.logError("SHOULD WE BE HERE?? individualsWithGap should only contain individuals that do indeed have a gap");
+			}
+			t.reset();				
 		}
-		else{
-			Iterator<String> iter = individualsWithGap.iterator();
-			while (iter.hasNext()){
-				String ind = iter.next();
-				String query = "select ?z where { " +
-						ind + " " + MyPrefixes.PAGOdAPrefixes.expandText("rdf:type") + " ?z }";
-				QueryRecord4Classification queryRecord = ((QueryManager4Classification) getQueryManager()).create(query, ClassificationQueryType.INDIVIDUAL, ind);
-				evaluate(queryRecord);
-				if (!queryRecord.processed()){
-					Logger_MORe.logDebug(queryRecord.toString());
-					for (AnswerTuple tuple : queryRecord.getGapAnswerTuples())
-						Logger_MORe.logDebug(tuple.toString());
-					queryRecords.add(queryRecord);
-					classesWithGap.add(indManager.getClass4Individual(ind));
-					nUndecidedSubsumptionPairs = nUndecidedSubsumptionPairs + queryRecord.getGapAnswerTuples().size();
-				}
-				else{
-					iter.remove();
-					Logger_MORe.logError("SHOULD WE BE HERE?? individualsWithGap should only contain individuals that do indeed have a gap");
-				}
-				t.reset();				
+		if (!queryRecords.isEmpty()){
+			QueryRecord4Classification queryRecord = ((QueryManager4Classification) getQueryManager()).createBotQueryRecord4Classification();
+			evaluate(queryRecord);
+			if (!queryRecord.processed()){
+				Logger_MORe.logDebug(queryRecord.toString());
+				for (AnswerTuple tuple : queryRecord.getGapAnswerTuples())
+					Logger_MORe.logDebug(tuple.toString());
+				queryRecords.add(queryRecord);
 			}
-			if (!queryRecords.isEmpty()){
-				String bot = MyPrefixes.PAGOdAPrefixes.expandText("owl:Nothing");
-				String query = "select ?x where { ?x " 
-						+ MyPrefixes.PAGOdAPrefixes.expandText("rdf:type") + " " + bot + " }";
-				QueryRecord4Classification queryRecord = ((QueryManager4Classification) getQueryManager()).create(query, ClassificationQueryType.PREDICATE, bot);
-				evaluate(queryRecord);
-				if (!queryRecord.processed()){
-					Logger_MORe.logDebug(queryRecord.toString());
-					for (AnswerTuple tuple : queryRecord.getGapAnswerTuples())
-						Logger_MORe.logDebug(tuple.toString());
-					queryRecords.add(queryRecord);
-				}
-				t.reset();
-			}
+			t.reset();
 		}
 		return !queryRecords.isEmpty();
 	}
@@ -349,7 +306,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 	protected boolean updateUpperProgramWithGap(ModuleType moduleType){ //returns true if the upperProgram has been updated
 		OWLOntologyManager manager = ontology.getOWLOntologyManager();
 		OWLDataFactory factory = manager.getOWLDataFactory();
-		
+
 		//if we are doing multiStage materialisation we will do this before we do anything we the trackingStore, so we can simply
 		//extract the module from ontology
 		//if we are using only the tracking store, we will do this after normal materialisation, before tracking materialisation,
@@ -357,23 +314,23 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		//to recover skolem constants from a map that matches tem with the corresponding DLClause because the DLClauses will have to be created
 		//from scratch, and will most likely introduce different abbreviations. A solution in this case is to recover the DLClauses generated 
 		//when we first loaded the ontology, turn them into axioms and extract any modules from the resulting ontology
-		
-		
+
+
 		if (lazyUpperStore == null){
 			Set<OWLAxiom> aux = new HashSet<OWLAxiom>();
 			for (DLClause dlClause : program.getUpper().getClauses()){
 				if (DLClauseHelper.isTautologyAboutDifferentFrom(dlClause))
 					continue;
 				OWLAxiom ax = program.getUpper().getEquivalentAxiom(dlClause); 
-//				if (ax instanceof OWLSubClassOfAxiom && ((OWLSubClassOfAxiom) ax).getSubClass().isOWLThing())
-//					System.out.println(dlClause.toString());
+				//				if (ax instanceof OWLSubClassOfAxiom && ((OWLSubClassOfAxiom) ax).getSubClass().isOWLThing())
+				//					System.out.println(dlClause.toString());
 				aux.add(ax);
 			}
 			try {
 				reducedOntology = manager.createOntology(aux, IRI.create(Utility.getOntologyID_DLontology()));
 			} catch (OWLOntologyCreationException e) {
 				return false;
-//				e.printStackTrace();
+				//				e.printStackTrace();
 			}
 		}
 
@@ -395,6 +352,8 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 			moduleSuffix += "-star";
 			break;
 		}
+		
+			
 
 		try {
 			SyntacticLocalityModuleExtractor extractor = new SyntacticLocalityModuleExtractor(ontology.getOWLOntologyManager(), reducedOntology, moduleType);
@@ -462,13 +421,13 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		OWLOntology knowledgebase; 
 		t.reset(); 
 
-//				////
-//				for (OWLAxiom ax : tracker.extract(trackingStore).getAxioms())
-//					System.out.println(ax.toString());
-				////
+		//				////
+		//				for (OWLAxiom ax : tracker.extract(trackingStore).getAxioms())
+		//					System.out.println(ax.toString());
+		////
 
 		knowledgebase = indManager.rewriteABoxAxiomsAsTBoxAxioms(tracker.extract(trackingStore));
-//		Utility.printAllTriples(trackingStore.getDataStore());
+		//		Utility.printAllTriples(trackingStore.getDataStore());
 
 		//		/////
 		//		Utility.saveOntology(knowledgebase.getOWLOntologyManager(), knowledgebase, "file:/Users/Ana/Documents/Work/DatalogModules/MORe_2.0/smallOntology.owl");
@@ -487,8 +446,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		AnswerTuples answer = null;
 		t.reset(); 
 		try {
-//			answer = lowerStore.evaluate(queryRecord.getQueryText(), queryRecord.getAnswerVariables());
-			boolean expandEquality = ((QueryRecord4Classification) queryRecord).getQueryType() != ClassificationQueryType.INDIVIDUAL;
+			boolean expandEquality = ((QueryManager4Classification) getQueryManager()).isBottomQuery((QueryRecord4Classification) queryRecord);
 			answer = lowerStore.evaluate(queryRecord.getQueryText(), queryRecord.getAnswerVariables(), expandEquality);
 			Logger_MORe.logTrace(t.duration());
 			queryRecord.updateLowerBoundAnswers(answer);
@@ -504,9 +462,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		t.reset();
 		try {
 			if (queryRecord.isBottom() || !multiStageTag || (individualsWithContradictionsInLazyStore != null && !individualsWithContradictionsInLazyStore.isEmpty())){
-
-//				answer = trackingStore.evaluate(queryRecord.getQueryText(), queryRecord.getAnswerVariables());
-				boolean expandEquality = ((QueryRecord4Classification) queryRecord).getQueryType() != ClassificationQueryType.INDIVIDUAL;
+				boolean expandEquality = ((QueryManager4Classification) getQueryManager()).isBottomQuery((QueryRecord4Classification) queryRecord);
 				answer = trackingStore.evaluate(queryRecord.getQueryText(), queryRecord.getAnswerVariables(), expandEquality);
 				Logger_MORe.logTrace(t.duration());
 
@@ -539,17 +495,17 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		}
 	}
 
-	
+
 	public Set<OWLClass> getAllSuperClasses(OWLClass c){
 		Set<OWLClass> ret = new HashSet<OWLClass>();
 		OWLOntologyManager manager = ontology.getOWLOntologyManager();
 		OWLDataFactory factory = manager.getOWLDataFactory();
-		
+
 		if (unsatisfiableClasses.contains(c)){
 			ret.add(factory.getOWLNothing());
 			return ret;
 		}
-		
+
 		Individual i = indManager.getInstanceIndividual(c, false);
 		if (i != null){
 			String query = "select ?z where { " +
@@ -571,13 +527,13 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		}
 		return ret;
 	}
-	
+
 
 	public Set<OWLClass> getPotentialSuperClasses(OWLClass c){
 		Set<OWLClass> ret = new HashSet<OWLClass>();
-		
+
 		if ( c.isOWLNothing() || unsatisfiableClasses.contains(c)) return ret;
-		
+
 		OWLOntologyManager manager = ontology.getOWLOntologyManager();
 		OWLDataFactory factory = manager.getOWLDataFactory();
 		Individual i = indManager.getInstanceIndividual(c, false);
@@ -625,20 +581,20 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		}
 		return ret;
 	}
-	
-	
+
+
 	public int getNundecidedSubsumptionPairs(){
 		return nUndecidedSubsumptionPairs;
 	}
-	
+
 	public Set<OWLClass> getUnsatisfiableClasses(){
 		return unsatisfiableClasses;
 	}
-	
+
 	public boolean fullyClassifies(OWLClass c){
 		return !classesWithGap.contains(c);
 	}
-	
+
 	public IndividualManager getIndividualManager(){
 		return indManager;	
 	}

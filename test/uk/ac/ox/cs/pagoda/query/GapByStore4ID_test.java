@@ -110,7 +110,7 @@ public class GapByStore4ID_test {
 
 		Set<OWLClass> classesToClassify = new HashSet<OWLClass>();
 		classesToClassify.add(a);
-		PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify, ClassificationQueryType.INDIVIDUAL);
+		PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify);
 		pagoda.classify();
 
 		//expected
@@ -192,7 +192,7 @@ public class GapByStore4ID_test {
 
 		Set<OWLClass> classesToClassify = new HashSet<OWLClass>();
 		classesToClassify.add(b);
-		PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify, ClassificationQueryType.INDIVIDUAL);
+		PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify);
 		pagoda.classify();
 
 		//expected

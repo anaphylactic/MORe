@@ -317,7 +317,6 @@ public class MOReReasoner implements OWLReasoner {
 				compmodule_onto, 
 				lSignatureManager.getCompSignatureClasses(), 
 				configuration.useMultiStageMaterialisation, 
-				configuration.queryType, 
 				configuration.useParallelStores);
 		OWLOntology axiomsToFinish = pagoda.classify();		
 		stats.updatePAGOdAtime(t.duration());

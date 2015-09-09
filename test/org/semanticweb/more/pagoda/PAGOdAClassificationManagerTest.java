@@ -291,7 +291,7 @@ public class PAGOdAClassificationManagerTest {
 			Set<OWLClass> classesToClassify = new HashSet<OWLClass>();
 			classesToClassify.add(a);
 
-			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify, ClassificationQueryType.INDIVIDUAL);
+			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify);
 			pagoda.classify();
 			
 			Set<OWLClass> superClassesActual = new HashSet<OWLClass>();
@@ -323,7 +323,7 @@ public class PAGOdAClassificationManagerTest {
 			Set<OWLClass> classesToClassify = new HashSet<OWLClass>();
 			classesToClassify.add(a);
 
-			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager_parallel(o, classesToClassify, true, ClassificationQueryType.INDIVIDUAL);
+			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager_parallel(o, classesToClassify, true);
 			pagoda.classify();
 			
 			Set<OWLClass> superClassesActual = new HashSet<OWLClass>();
@@ -357,7 +357,7 @@ public class PAGOdAClassificationManagerTest {
 			Set<OWLClass> classesToClassify = new HashSet<OWLClass>();
 			classesToClassify.add(a);
 
-			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify, false, ClassificationQueryType.INDIVIDUAL);
+			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify, false);
 			pagoda.classify();
 			
 			Set<OWLClass> potSuperClassesActual = new HashSet<OWLClass>();
@@ -391,7 +391,7 @@ public class PAGOdAClassificationManagerTest {
 			Set<OWLClass> classesToClassify = new HashSet<OWLClass>();
 			classesToClassify.add(a);
 
-			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager_parallel(o, classesToClassify, false, ClassificationQueryType.INDIVIDUAL);
+			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager_parallel(o, classesToClassify, false);
 			pagoda.classify();
 			
 			Set<OWLClass> potSuperClassesActual = new HashSet<OWLClass>();
@@ -426,7 +426,7 @@ public class PAGOdAClassificationManagerTest {
 			Set<OWLClass> classesToClassify = new HashSet<OWLClass>();
 			classesToClassify.add(a);
 
-			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify, true, ClassificationQueryType.INDIVIDUAL);
+			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify, true);
 			pagoda.classify();
 			
 			Set<OWLClass> potSuperClassesActual = new HashSet<OWLClass>();
@@ -461,7 +461,7 @@ public class PAGOdAClassificationManagerTest {
 			Set<OWLClass> classesToClassify = new HashSet<OWLClass>();
 			classesToClassify.add(a);
 
-			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager_parallel(o, classesToClassify, true, ClassificationQueryType.INDIVIDUAL);
+			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager_parallel(o, classesToClassify, true);
 			pagoda.classify();
 			
 			Set<OWLClass> potSuperClassesActual = new HashSet<OWLClass>();

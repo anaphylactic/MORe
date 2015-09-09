@@ -10,8 +10,6 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import uk.ac.manchester.cs.owlapi.modularity.ModuleType;
-import uk.ac.ox.cs.pagoda.query.ClassificationQueryType;
-import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly;
 import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality;
 import uk.ac.ox.cs.pagoda.util.MyPrefixes;
 
@@ -19,8 +17,8 @@ public class PAGOdAClassificationManager_parallel extends PAGOdAClassificationMa
 
 	//only the RL program is done in parallel
 	
-	public PAGOdAClassificationManager_parallel(OWLOntology o, Set<OWLClass> classesToClassify, boolean multiStage, ClassificationQueryType qType){
-		super(o,classesToClassify, multiStage, qType);
+	public PAGOdAClassificationManager_parallel(OWLOntology o, Set<OWLClass> classesToClassify, boolean multiStage){
+		super(o,classesToClassify, multiStage);
 	}
 
 	@Override
