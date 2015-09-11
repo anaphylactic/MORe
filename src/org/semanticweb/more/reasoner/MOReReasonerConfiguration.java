@@ -55,7 +55,7 @@ public class MOReReasonerConfiguration implements OWLReasonerConfiguration{
 			boolean eliminateForgettableRoles,
 			boolean useMultiStageMaterialisation, 
 			boolean useRDFox, boolean saveOntologyForOWL2Reasoner,
-			String suffix){
+			String suffix){//this constructor is meant for performance testing purposes
 		this.integrateRanges = integrateRanges;
 		this.rewriteInverses = rewriteInverses;
 		this.eliminateForgettableRoles = eliminateForgettableRoles;

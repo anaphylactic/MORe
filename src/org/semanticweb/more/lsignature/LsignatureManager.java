@@ -1,5 +1,6 @@
 package org.semanticweb.more.lsignature;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
@@ -65,26 +66,19 @@ public class LsignatureManager {
 		compSignatureClasses = new HashSet<OWLClass>();
 		compSignatureOther = new HashSet<OWLEntity>();
 
-		//		if (!integrateRanges && !rewriteInverses){
-		//			LsignatureExtractor lSigExtractor = new LsignatureExtractor_reducedGreedyness();
-		//			lSigExtractor.findLsignature(ontology, fragment);
-		//			initialiseLsignature(lSigExtractor);
-		//		}
-		//		else findLsignatureWithRewritings(ontology, fragment);
-
 		LsignatureExtractorLauncher elkSignatureExtractorLauncher = null;
 		LsignatureExtractorLauncher elkSignatureExtractorIntegratingRangesLauncher = null;
-		LsignatureExtractorViaInverseRewritingLauncher shoiqSignatureExtractorLauncher = null;
+		LsignatureExtractorViaInverseRewritingLauncher elkSignatureExtractorRewritingInversesLauncher = null;
 
 		ForkJoinPool executor = new ForkJoinPool();
 		elkSignatureExtractorLauncher = new LsignatureExtractorLauncher(ontology, LogicFragment.ELK, false);
 		executor.execute(elkSignatureExtractorLauncher);
 
 		if (ret != null){
-			//otherwise we have nowhere to return the axioms in the normalised ontologie necessary to really classify all the extra classses in the lSignature
+			//otherwise we have nowhere to return the axioms in the normalised ontologies necessary to really classify all the extra classses in the lSignature
 			if (rewriteInverses){
-				shoiqSignatureExtractorLauncher = new LsignatureExtractorViaInverseRewritingLauncher(ontology, LogicFragment.SHOIQ);
-				executor.execute(shoiqSignatureExtractorLauncher);
+				elkSignatureExtractorRewritingInversesLauncher = new LsignatureExtractorViaInverseRewritingLauncher(ontology, LogicFragment.ELK);
+				executor.execute(elkSignatureExtractorRewritingInversesLauncher);
 			}
 			if (integrateRanges){
 				elkSignatureExtractorIntegratingRangesLauncher = new LsignatureExtractorLauncher(ontology, LogicFragment.ELK, true);
@@ -95,14 +89,14 @@ public class LsignatureManager {
 			initialiseLsignature((LsignatureExtractor) elkSignatureExtractorLauncher.join());
 
 			if (compSignatureClasses.isEmpty())
-				cancelTasks(elkSignatureExtractorIntegratingRangesLauncher, shoiqSignatureExtractorLauncher);
+				cancelTasks(elkSignatureExtractorIntegratingRangesLauncher, elkSignatureExtractorRewritingInversesLauncher);
 			else{
-				if (shoiqSignatureExtractorLauncher != null && 
-						extendLsignature((LsignatureExtractor) shoiqSignatureExtractorLauncher.join()) > 0 ){
-					manager.addAxioms(ret, ((LsignatureExtractorViaInverseRewritingLauncher) shoiqSignatureExtractorLauncher).getOntology().getAxioms());
+				if (elkSignatureExtractorRewritingInversesLauncher != null && 
+						extendLsignature((LsignatureExtractor) elkSignatureExtractorRewritingInversesLauncher.join()) > 0 ){
+					manager.addAxioms(ret, ((LsignatureExtractorViaInverseRewritingLauncher) elkSignatureExtractorRewritingInversesLauncher).getOntology().getAxioms());
 				}
 				if (compSignatureClasses.isEmpty())
-					cancelTasks(shoiqSignatureExtractorLauncher);
+					cancelTasks(elkSignatureExtractorRewritingInversesLauncher);
 				else if (elkSignatureExtractorIntegratingRangesLauncher != null &&
 						extendLsignature((LsignatureExtractor) elkSignatureExtractorIntegratingRangesLauncher.join()) > 0){
 					manager.addAxioms(ret, ((LsignatureExtractorLauncher) elkSignatureExtractorIntegratingRangesLauncher).getOntology().getAxioms());
@@ -116,30 +110,6 @@ public class LsignatureManager {
 			initialiseLsignature((LsignatureExtractor) elkSignatureExtractorLauncher.join());
 		}
 
-		
-//		//for debugging purposes: leave only 10 classes in the compSignature
-//		////////////
-//		Iterator<OWLClass> iter = compSignatureClasses.iterator();
-//		int counter = 0;
-//		while (iter.hasNext()){
-//			OWLClass c = iter.next();
-////			if (counter < 10){
-//			if (
-////					c.toString().contains("<http://sa.aktivespace.org/ontologies/aktivesa#GeographicLocationMeasurement>") ||
-////					c.toString().contains("<http://sa.aktivespace.org/ontologies/aktivesa#LongitudeMeasurement>") ||
-////					c.toString().contains("<http://sa.aktivespace.org/ontologies/aktivesa#Longitude>") ||
-////					c.toString().contains("<http://sa.aktivespace.org/ontologies/aktivesa#LatitudeMeasurement>") ||
-//					c.toString().contains("<http://sa.aktivespace.org/ontologies/aktivesa#Latitude>")){
-//				counter++;
-//				System.out.println(c.toString());
-//			}
-//			else
-//				iter.remove();
-////			if (c.toString().contains("<http://www.icn.ch/icnp#EvaluatingManagingSpecimen>"))
-////					iter.remove();
-//		}
-//		////////////
-		
 		Logger_MORe.logInfo(lSignatureClasses.size() + "classes in lSignature");
 		Logger_MORe.logDebug(lSignatureClasses.toString());
 		Logger_MORe.logInfo(compSignatureClasses.size() + "classes in compSignature");
@@ -182,66 +152,6 @@ public class LsignatureManager {
 		if (compSignatureOther != null)
 			compSignatureOther.clear();
 	}
-
-
-
-
-
-
-	//	public void findLsignatureWithRewritings(OWLOntology ontology, LogicFragment fragment){
-	//		LsignatureExtractorLauncher elkSignatureExtractorLauncher = null;
-	//		LsignatureExtractorLauncher elkSignatureExtractorIntegratingRangesLauncher = null;
-	//		LsignatureExtractorViaInverseRewritingLauncher shoiqSignatureExtractorLauncher = null;
-	//
-	//		ForkJoinPool executor = new ForkJoinPool();
-	//		elkSignatureExtractorLauncher = new LsignatureExtractorLauncher(ontology, LogicFragment.ELK, false);
-	//		executor.execute(elkSignatureExtractorLauncher);
-	//
-	//		if (Runtime.getRuntime().availableProcessors() > 1){
-	//			if (integrateRanges){
-	//				elkSignatureExtractorIntegratingRangesLauncher = new LsignatureExtractorLauncher(ontology, LogicFragment.ELK, false);
-	//				executor.execute(elkSignatureExtractorIntegratingRangesLauncher);
-	//			}
-	//			if (rewriteInverses){
-	//				shoiqSignatureExtractorLauncher = new LsignatureExtractorViaInverseRewritingLauncher(ontology, LogicFragment.SHOIQ);
-	//				executor.execute(shoiqSignatureExtractorLauncher);
-	//			}
-	//
-	//			//check the output of the normal ELKsignature and cancel the other threads if the lSig is the whole signature
-	//			initialiseLsignature((LsignatureExtractor) elkSignatureExtractorLauncher.join());
-	//
-	//
-	//			if (compSignatureClasses.isEmpty())
-	//				cancelTasks(elkSignatureExtractorIntegratingRangesLauncher, shoiqSignatureExtractorLauncher);
-	//			else{
-	//				if (elkSignatureExtractorIntegratingRangesLauncher != null)
-	//					extendLsignature((LsignatureExtractor) elkSignatureExtractorIntegratingRangesLauncher.join());
-	//				if (compSignatureClasses.isEmpty())
-	//					cancelTasks(shoiqSignatureExtractorLauncher);
-	//				else if (shoiqSignatureExtractorLauncher != null) 
-	//					extendLsignature((LsignatureExtractor) shoiqSignatureExtractorLauncher.join());	
-	//			}
-	//		}
-	//		else{
-	//			initialiseLsignature((LsignatureExtractor) elkSignatureExtractorLauncher.join());
-	//
-	//			if (!compSignatureClasses.isEmpty()){
-	//				if (integrateRanges){
-	//					elkSignatureExtractorIntegratingRangesLauncher = new LsignatureExtractorLauncher(ontology, LogicFragment.ELK, false);
-	//					executor.execute(elkSignatureExtractorIntegratingRangesLauncher);
-	//					extendLsignature((LsignatureExtractor) elkSignatureExtractorIntegratingRangesLauncher.join());
-	//				}
-	//				if (rewriteInverses && !compSignatureClasses.isEmpty()){
-	//					shoiqSignatureExtractorLauncher = new LsignatureExtractorViaInverseRewritingLauncher(ontology, LogicFragment.SHOIQ);
-	//					executor.execute(shoiqSignatureExtractorLauncher);
-	//					extendLsignature((LsignatureExtractor) shoiqSignatureExtractorLauncher.join());
-	//				}
-	//			}
-	//
-	//		}
-	//
-	//
-	//	}
 
 	protected void initialiseLsignature(LsignatureExtractor extractor){
 		for (OWLEntity e : extractor.getLsignature()){
@@ -362,13 +272,14 @@ public class LsignatureManager {
 
 		private static final long serialVersionUID = -6290155134070188986L;
 		private OWLOntology ontology;
+		OWLOntologyManager manager;
 		private LogicFragment fragment;
 		private LsignatureExtractor extractor = new LsignatureExtractor_reducedGreedyness();
 
 		public LsignatureExtractorViaInverseRewritingLauncher(OWLOntology ontology, LogicFragment fragment){
 			this.ontology = null;
 			try {
-				OWLOntologyManager manager = ontology.getOWLOntologyManager();
+				manager = ontology.getOWLOntologyManager();
 				this.ontology = manager.createOntology();
 				manager.addAxioms(this.ontology, ontology.getAxioms());
 			} catch (OWLOntologyCreationException e) {
@@ -377,6 +288,22 @@ public class LsignatureManager {
 			this.fragment = fragment;
 		}
 
+		protected boolean containsNonInternalClasses(Collection<OWLEntity> signature){
+			boolean ret = false;
+			for (OWLEntity e : signature){
+				ret = e instanceof OWLClass && !Utility.isInternalPredicate(e.toString());
+				if (ret) break;
+			}
+			return ret;
+		}
+		
+		protected Set<OWLEntity> getNonInternalClasses(Collection<OWLEntity> signature){
+			Set<OWLEntity> ret = new HashSet<OWLEntity>();
+			for (OWLEntity e : signature)
+				if (e instanceof OWLClass && !Utility.isInternalPredicate(e.toString()))
+					ret.add(e);
+			return ret;
+		}
 
 		@Override
 		protected boolean exec() {
@@ -385,46 +312,37 @@ public class LsignatureManager {
 				extractor = null;
 				return true;
 			}
-			String iri = "http://www.cs.ox.ac.uk/isg/tools/MORe/ontologies/inverseRewritingModule.owl";
-			OWLOntologyManager manager = ontology.getOWLOntologyManager();
-
-			extractor.findLsignature(ontology, fragment);
-
-			Set<OWLEntity> aux = new HashSet<OWLEntity>();
-			for (OWLEntity e : extractor.getCompSignature())
-				if (e instanceof OWLClass && !Utility.isInternalPredicate(e.toString()))
-					aux.add(e);
-			if (!aux.isEmpty()){//then the ontology goes beyond SHOIQ and we need to work with a SHOIQ module rather than the whole ontology
-				aux = new HashSet<OWLEntity>();
-				for (OWLEntity e : extractor.getLsignature())
-					if (e instanceof OWLClass && !Utility.isInternalPredicate(e.toString()))
-						aux.add(e);
+			IRI iri = IRI.create("http://www.cs.ox.ac.uk/isg/tools/MORe/ontologies/inverseRewritingModule.owl");
+			extractor.findLsignature(ontology, LogicFragment.SHOIQ);
+			if (containsNonInternalClasses(extractor.getCompSignature())){//then the ontology goes beyond SHOIQ and we need to work with a SHOIQ module rather than the whole ontology
+				Set<OWLEntity> aux = getNonInternalClasses(extractor.getLsignature());
 				if (aux.isEmpty()){
 					extractor = null;
-					Logger_MORe.logDebug(t.duration() + "s to find Lsignature with inverseRewriting (failed)");
+					Logger_MORe.logDebug(t.duration() + "s to find Lsignature with inverseRewriting (failed - empty SHOIQ-signature)");
 					return true;	
 				}
-				SyntacticLocalityModuleExtractor moduleExtractor = new SyntacticLocalityModuleExtractor(ontology.getOWLOntologyManager(), ontology, ModuleType.BOT);
+				SyntacticLocalityModuleExtractor moduleExtractor = new SyntacticLocalityModuleExtractor(
+						ontology.getOWLOntologyManager(), 
+						ontology, 
+						ModuleType.BOT);
 				try {
-					ontology = moduleExtractor.extractAsOntology(aux, IRI.create(iri));
+					ontology = moduleExtractor.extractAsOntology(aux, iri);
 				} catch (OWLOntologyCreationException e1) {
 					extractor = null;
 					e1.printStackTrace();
-					Logger_MORe.logDebug(t.duration() + "s to find Lsignature with inverseRewriting (failed)");
+					Logger_MORe.logDebug(t.duration() + "s to find Lsignature with inverseRewriting (failed - exception creating a SHOIQ module)");
 					return true;
 				}
 			}
 
 			//if we get this far then we have a nonempty ontology (maybe module) that we need to normalize and then rewrite
 			OWLNormalization4MORe normalization = new OWLNormalization4MORe(ontology, true, true, true);
+			if (manager.contains(iri)) manager.removeOntology(ontology);
 			Rewriter rewriter = new Rewriter(normalization.getNormalizedOntology(), normalization.getSortedGCIs());
 			Set<OWLAxiom> rewrittenAxioms = rewriter.getRewrittenOntology();
-			if (manager.contains(IRI.create(iri)))
-				manager.removeOntology(ontology);
-			//need a way to find out if there was any rewriting at all, if not then no point in trying to find a better lSignature
-			if (RoleOperations.getRewrittenRoles().isEmpty()){
+			if (!rewriter.anyRewrittenRoles()){
 				extractor = null;
-				Logger_MORe.logDebug(t.duration() + "s to find Lsignature with inverseRewriting (failed)");
+				Logger_MORe.logDebug(t.duration() + "s to find Lsignature with inverseRewriting (failed - could not rewrite any roles)");
 				return true;
 			}
 			try {
@@ -435,7 +353,7 @@ public class LsignatureManager {
 			} catch (OWLOntologyCreationException e1) {
 				extractor = null;
 				e1.printStackTrace();
-				Logger_MORe.logDebug(t.duration() + "s to find Lsignature with inverseRewriting (failed)");
+				Logger_MORe.logDebug(t.duration() + "s to find Lsignature with inverseRewriting (failed - exception creating ontology for rewritten axioms)");
 				return true;
 			}
 			Logger_MORe.logDebug(t.duration() + "s to find Lsignature with inverseRewriting");

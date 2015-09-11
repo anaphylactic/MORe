@@ -29,12 +29,13 @@ import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 
 public class RoleRewriter implements OWLClassExpressionVisitor {
     protected final OWLDataFactory m_factory=new OWLDataFactoryImpl();
-    Set<OWLObjectPropertyExpression> nonRW;
-    OWLClassExpression newClass;
+    protected Set<OWLObjectPropertyExpression> nonRW;
+    protected OWLClassExpression newClass;
+    protected RoleOperations roleOps;
     
-    public RoleRewriter (Set<OWLObjectPropertyExpression> nonRW)
-    {
-    this.nonRW=nonRW; 	
+    public RoleRewriter(Set<OWLObjectPropertyExpression> nonRW, RoleOperations roleOps){
+    	this.nonRW=nonRW; 	
+    	this.roleOps = roleOps;
     }
 	
     public void visit(OWLClass c){
@@ -44,14 +45,14 @@ public class RoleRewriter implements OWLClassExpressionVisitor {
     public void visit(OWLObjectSomeValuesFrom object){
 		OWLObjectPropertyExpression role=object.getProperty();
 		OWLClassExpression filler=object.getFiller();
-		newClass=m_factory.getOWLObjectSomeValuesFrom(RoleOperations.getNewRoleName(role, nonRW), filler);
+		newClass=m_factory.getOWLObjectSomeValuesFrom(roleOps.getNewRoleName(role, nonRW), filler);
 	}
 	
 	
     public void visit(OWLObjectAllValuesFrom object){
 		OWLObjectPropertyExpression role=object.getProperty();
 		OWLClassExpression filler=object.getFiller();
-		newClass=m_factory.getOWLObjectAllValuesFrom(RoleOperations.getNewRoleName(role, nonRW), filler);
+		newClass=m_factory.getOWLObjectAllValuesFrom(roleOps.getNewRoleName(role, nonRW), filler);
 		//System.out.println(newClass);
 	}
 	
@@ -59,14 +60,14 @@ public class RoleRewriter implements OWLClassExpressionVisitor {
 		OWLObjectPropertyExpression role=object.getProperty();
 		OWLClassExpression filler=object.getFiller();
 		int c=object.getCardinality();
-		newClass=m_factory.getOWLObjectMinCardinality(c, RoleOperations.getNewRoleName(role, nonRW), filler);
+		newClass=m_factory.getOWLObjectMinCardinality(c, roleOps.getNewRoleName(role, nonRW), filler);
 	}
     
    	public void visit(OWLObjectMaxCardinality object) {
    		OWLObjectPropertyExpression role=object.getProperty();
 		OWLClassExpression filler=object.getFiller();
 		int c=object.getCardinality();
-		newClass=m_factory.getOWLObjectMaxCardinality(c, RoleOperations.getNewRoleName(role, nonRW), filler);
+		newClass=m_factory.getOWLObjectMaxCardinality(c, roleOps.getNewRoleName(role, nonRW), filler);
 	}
 
 

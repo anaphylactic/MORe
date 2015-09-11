@@ -128,25 +128,23 @@ public class MOReReasoner implements OWLReasoner {
 		loadOntology();
 	}
 
-
+	public MOReReasoner(OWLOntology ontlgy) {
+		this(ontlgy, new MOReReasonerConfiguration());
+	}
 	
 	//called from factory
-	public MOReReasoner(OWLOntology ontlgy, boolean bufferingMode, MOReReasonerConfiguration config, OWL2ReasonerManager owl2ReasonerManager) {
+	protected MOReReasoner(OWLOntology ontlgy, boolean isBuffered, MOReReasonerConfiguration config, OWL2ReasonerManager owl2ReasonerManager) {
 		this(ontlgy,config);
-		isBuffered = bufferingMode;
+		this.isBuffered = isBuffered;
 		this.owl2reasonerManager = owl2ReasonerManager;
 	}
 
-	
-
-	public MOReReasoner(OWLOntology ontlgy, boolean isBuffered,
+	protected MOReReasoner(OWLOntology ontlgy, boolean isBuffered,
 			MOReReasonerConfiguration config) {
 		this(ontlgy, config);
 	}
 	
-	public MOReReasoner(OWLOntology ontlgy) {
-		this(ontlgy, new MOReReasonerConfiguration());
-	}
+	
 
 	@Override
 	public Version getReasonerVersion() {

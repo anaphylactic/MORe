@@ -1,4 +1,4 @@
-package org.semanticweb.more;
+package org.semanticweb.more.reasoner;
 
 import java.util.HashSet;
 import java.util.Set;

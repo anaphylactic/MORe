@@ -24,16 +24,11 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
-//import carral.Shared;
 
 public class RoleOperations {
 	protected final static OWLDataFactory m_factory=new OWLDataFactoryImpl();
-
-	//	protected static Map<OWLObjectPropertyExpression, Set<OWLObjectPropertyExpression>> getRoleHierarchy(OWLOntology o){
-	//		Set<OWLPropertyAxiom> axioms=o.getRBoxAxioms(true);
-	//		return getRoleHierarchy(axioms);
-	//		}
-
+	protected Set<String> rewrittenRoles = new HashSet<String>();
+	
 	protected static Map<OWLObjectPropertyExpression, Set<OWLObjectPropertyExpression>> getRoleHierarchy(Set<OWLAxiom> axioms){
 		Map<OWLObjectPropertyExpression, Set<OWLObjectPropertyExpression>> roleHierarchy = 
 				new HashMap<OWLObjectPropertyExpression, Set<OWLObjectPropertyExpression>>();
@@ -84,14 +79,12 @@ public class RoleOperations {
 	//	}
 
 
-	static Set<String> rewrittenRoles = new HashSet<String>();
-
-	public static Set<String> getRewrittenRoles(){
+	public Set<String> getRewrittenRoles(){
 		return rewrittenRoles;
 	}
 
 
-	protected static OWLObjectPropertyExpression getNewRoleName(OWLObjectPropertyExpression role, Set<OWLObjectPropertyExpression> nonRW){
+	protected OWLObjectPropertyExpression getNewRoleName(OWLObjectPropertyExpression role, Set<OWLObjectPropertyExpression> nonRW){
 		OWLObjectPropertyExpression nrole; 
 		if (role.isAnonymous()&&!nonRW.contains(role)) {
 			String invname="Newgsd"+role.getInverseProperty().getSimplified().toString().substring(1, role.getInverseProperty().getSimplified().toString().length()-1);

@@ -1,6 +1,7 @@
 package org.semanticweb.more.reasoner;
 
 import org.semanticweb.HermiT.Reasoner;
+import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
@@ -30,6 +31,7 @@ public class OWL2ReasonerManager {
 			r = factory.createReasoner(ontology);
 		else 
 			r = factory.createReasoner(ontology, configuration);
+		Logger_MORe.logTrace("created instance of OWL 2 reasoner: " + r.getReasonerName());
 		return r;
 	}
 }

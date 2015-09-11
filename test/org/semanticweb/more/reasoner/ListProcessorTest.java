@@ -1,4 +1,4 @@
-package org.semanticweb.more;
+package org.semanticweb.more.reasoner;
 
 import static org.junit.Assert.*;
 import java.util.HashSet;
