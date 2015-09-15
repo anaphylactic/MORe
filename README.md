@@ -1,23 +1,17 @@
 # MORe
 Modular OWL 2 Reasoner for Ontology Classification
 
-To build the project, modify the pom.xml file by replacing the line 
-```xml
-<systemPath>${basedir}/lib/RDFox/JRDFox.jar</systemPath>
+To build the project open a terminal, go to the project's directory and run
 ```
-with
-```xml
-<systemPath>${basedir}/lib/RDFox/Mac/JRDFox.jar</systemPath>
+$ mkdir repo
+$ mvn deploy:deploy-file -Durl=file:repo/ -Dfile=lib/RDFox/<platform>/JRDFox.jar -DgroupId=uk.ac.ox.cs -DartifactId=JRDFox -Dpackaging=jar -Dversion=build2213
 ```
-or
-```xml
-<systemPath>${basedir}/lib/RDFox/Linux/JRDFox.jar</systemPath>
+where ```<platform>``` should be Mac, Linux or Windows.
+If you wish to use PrisM as a library, run
 ```
-or 
-```xml
-<systemPath>${basedir}/lib/RDFox/Windows/JRDFox.jar</systemPath>
+$ mvn install
 ```
-according to your operating system, and then run maven.
+This should generate a folder called ```target``` containing the library ```uber-PrisM-0.0.1-SNAPSHOT.jar```. This library is ready to use and bundles all necessary dependencies.
 
 Given an instance ```o``` of the ```OWLOntology``` class from  the [OWLAPI](http://owlapi.sourceforge.net/),  the simplest way to create an instance of the reasoner is the following:
 ```java
