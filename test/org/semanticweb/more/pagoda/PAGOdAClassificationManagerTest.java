@@ -92,7 +92,7 @@ public class PAGOdAClassificationManagerTest {
 		
 		@Test
 		public void lazyMaterialisationTest() throws Exception{
-			Logger_MORe.setLevel(Level.TRACE);
+			Logger_MORe.setLevel(Level.OFF);
 
 			setUp();
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, b));
@@ -211,7 +211,7 @@ public class PAGOdAClassificationManagerTest {
 			classesToClassify.add(g);
 			classesToClassify.add(h);
 
-			Logger_MORe.setLevel(Level.DEBUG);
+			Logger_MORe.setLevel(Level.OFF);
 			PAGOdAClassificationManager pagoda = new PAGOdAClassificationManager(o, classesToClassify);
 			
 			Set<String> axiomsActual= new HashSet<String>();
@@ -276,7 +276,7 @@ public class PAGOdAClassificationManagerTest {
 		
 		@Test
 		public void additionOfSkolemConstantsToLowerStoreTest() throws Exception{
-			Logger_MORe.setLevel(Level.DEBUG);
+			Logger_MORe.setLevel(Level.OFF);
 			
 			setUp();
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, b));
@@ -310,7 +310,7 @@ public class PAGOdAClassificationManagerTest {
 		
 		@Test
 		public void additionOfSkolemConstantsToUpperStoreTest() throws Exception{
-			Logger_MORe.setLevel(Level.DEBUG);
+			Logger_MORe.setLevel(Level.OFF);
 			
 			setUp();
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, b));
@@ -344,7 +344,7 @@ public class PAGOdAClassificationManagerTest {
 		
 		@Test
 		public void additionOfSkolemConstantsToUpperStoreTest2() throws Exception{//with multistage
-			Logger_MORe.setLevel(Level.DEBUG);
+			Logger_MORe.setLevel(Level.OFF);
 			
 			setUp();
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, b));

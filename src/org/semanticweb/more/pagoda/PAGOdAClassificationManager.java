@@ -30,6 +30,7 @@ import uk.ac.ox.cs.pagoda.hermit.DLClauseHelper;
 import uk.ac.ox.cs.pagoda.multistage.MultiStageQueryEngine;
 import uk.ac.ox.cs.pagoda.query.AnswerTuple;
 import uk.ac.ox.cs.pagoda.query.AnswerTuples;
+import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly;
 import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality;
 import uk.ac.ox.cs.pagoda.query.MultiQueryRecord;
 import uk.ac.ox.cs.pagoda.query.QueryManager;
@@ -148,10 +149,10 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 			}
 		}
 	}
-	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality lazyGap;
-	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality gap;
-	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality[] getGaps(){//this is for debugging purposes
-		return new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality[]{lazyGap, gap};
+	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly lazyGap;
+	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly gap;
+	public GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly[] getGaps(){//this is for debugging purposes
+		return new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly[]{lazyGap, gap};
 	}
 	@Override
 	public boolean preprocess() {//returns true if the ontology is already fully classified, false otherwise
@@ -171,9 +172,12 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 			aBoxManager.updateInstantiationABox(classesToClassify);
 
 		if (lazyUpperStore != null) {
-			lazyGap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(lazyUpperStore, lowerStore);
+			if (program.getUpper().containsEquality()) 
+				lazyGap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(lazyUpperStore, lowerStore);
+			else 
+				lazyGap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly(lazyUpperStore);
 			lazyUpperStore.materialiseMultiStage(program, aBoxManager.skolemABox_fileName, lazyGap, lowerStore);
-
+			
 			Utility.printAllTriples(lazyUpperStore.getDataStore());
 			
 			//before launching the trackingStore check if the gap is empty
@@ -191,7 +195,10 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 						aBoxManager.updateSkolemABox(program.getAdditionalABoxFacts());
 				}
 
-				gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
+				if (program.getUpper().containsEquality()) 
+					gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore);
+				else 
+					gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly(trackingStore);
 				trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager);
 
 				//if there are any contradictions in the lazyUpperStore then we need to consider the predicatesWithGap given by the trackingStore
@@ -211,7 +218,11 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 			}
 		}
 		else{
-			gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
+			 
+			if (program.getUpper().containsEquality()) 
+				gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore);
+			else 
+				gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly(trackingStore);
 			trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager);
 			predicatesWithGap = gap.getPredicatesWithGap();
 			if (predicatesWithGap .isEmpty())

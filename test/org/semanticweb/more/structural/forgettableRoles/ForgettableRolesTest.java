@@ -5,8 +5,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Level;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.more.util.Utility;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -62,6 +64,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test1() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, b));
 			OWLAxiom ax2 = factory.getOWLSubClassOfAxiom(b, factory.getOWLObjectSomeValuesFrom(s, c));
@@ -99,6 +103,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test2() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, factory.getOWLObjectSomeValuesFrom(s, b)));
 			OWLAxiom ax2 = factory.getOWLSubClassOfAxiom(factory.getOWLObjectSomeValuesFrom(r, c), d);
@@ -133,6 +139,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test3() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, factory.getOWLObjectSomeValuesFrom(s, b)));
 			OWLAxiom ax2 = factory.getOWLSubClassOfAxiom(factory.getOWLObjectSomeValuesFrom(r, c), d);
@@ -168,6 +176,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test4() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, factory.getOWLObjectSomeValuesFrom(s, b)));
 			OWLAxiom ax2 = factory.getOWLSubClassOfAxiom(factory.getOWLObjectSomeValuesFrom(r, c), d);
@@ -205,6 +215,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test5() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, factory.getOWLObjectSomeValuesFrom(s, b)));
 			OWLAxiom ax2 = factory.getOWLSubClassOfAxiom(factory.getOWLObjectSomeValuesFrom(r, c), d);
@@ -250,6 +262,7 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test6() {
+		Logger_MORe.setLevel(Level.OFF);
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectMinCardinality(2, r, factory.getOWLObjectSomeValuesFrom(s, b)));
 			OWLAxiom ax2 = factory.getOWLObjectPropertyDomainAxiom(s, c);
@@ -285,6 +298,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test7() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectMinCardinality(2, r, factory.getOWLObjectSomeValuesFrom(t, b)));
 			OWLAxiom ax2 = factory.getOWLSubObjectPropertyOfAxiom(r, s.getInverseProperty());
@@ -328,6 +343,7 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test8() {
+		Logger_MORe.setLevel(Level.OFF);
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectMinCardinality(2, r, factory.getOWLObjectSomeValuesFrom(t, b)));
 			OWLAxiom ax2 = factory.getOWLSubObjectPropertyOfAxiom(r, s.getInverseProperty());
@@ -362,6 +378,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test9() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectMinCardinality(2, r, factory.getOWLObjectSomeValuesFrom(t, b)));
 			OWLAxiom ax2 = factory.getOWLSubObjectPropertyOfAxiom(r, s.getInverseProperty());
@@ -401,6 +419,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test10() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectMinCardinality(2, r, factory.getOWLObjectSomeValuesFrom(t, b)));
 			OWLAxiom ax2 = factory.getOWLSubObjectPropertyOfAxiom(r, p.getInverseProperty());
@@ -425,6 +445,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test11() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectMinCardinality(2, r, factory.getOWLObjectSomeValuesFrom(t, b)));
 			OWLAxiom ax2 = factory.getOWLSubObjectPropertyOfAxiom(r, p.getInverseProperty());
@@ -460,6 +482,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test12() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(factory.getOWLObjectSomeValuesFrom(r, factory.getOWLObjectMaxCardinality(2, s)), b);
 			OWLAxiom ax2 = factory.getOWLSubClassOfAxiom(factory.getOWLObjectSomeValuesFrom(p, factory.getOWLObjectMaxCardinality(2, q)), b);
@@ -496,6 +520,8 @@ public class ForgettableRolesTest {
 
 	@Test
 	public void test13() {
+		Logger_MORe.setLevel(Level.OFF);
+		
 		try {
 			OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, b));
 			OWLAxiom ax2 = factory.getOWLSubClassOfAxiom(c, factory.getOWLObjectSomeValuesFrom(s, d));

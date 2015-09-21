@@ -23,6 +23,7 @@ import uk.ac.ox.cs.pagoda.multistage.MultiStageQueryEngine;
 import uk.ac.ox.cs.pagoda.multistage.MultiStageUpperProgram;
 import uk.ac.ox.cs.pagoda.multistage.Violation;
 import uk.ac.ox.cs.pagoda.query.AnswerTuple;
+import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly;
 import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality;
 import uk.ac.ox.cs.pagoda.util.SparqlHelper;
 
@@ -35,7 +36,7 @@ public class Treatment4Classification extends Pick4NegativeConceptNaive {
 	public Set<AnswerTuple> makeSatisfiedAndReturnAddedTuples(Violation violation) {
 		return makeSatisfiedAndReturnAddedTuples(violation, comp);
 	}
-	public void makeSatisfied(Violation violation, GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality gap) {
+	public void makeSatisfied(Violation violation, GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly gap) {
 		makeSatisfied(violation, comp, gap);
 	}	
 		
@@ -159,7 +160,7 @@ public class Treatment4Classification extends Pick4NegativeConceptNaive {
 		return ret;
 	}
 	
-	protected void makeSatisfied(Violation violation, Comparator<Atom> comp, GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality gap) {
+	protected void makeSatisfied(Violation violation, Comparator<Atom> comp, GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly gap) {
 		
 		LinkedList<AnswerTupleID> tuples = violation.getTuples();
 		DLClause constraint = violation.getConstraint();

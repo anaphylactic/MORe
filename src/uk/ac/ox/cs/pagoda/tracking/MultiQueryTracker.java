@@ -1,18 +1,14 @@
 package uk.ac.ox.cs.pagoda.tracking;
 import java.io.File;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.semanticweb.HermiT.model.DLClause;
 import org.semanticweb.more.util.Logger_MORe;
-import org.semanticweb.more.util.Utility;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
-import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.ox.cs.JRDFox.JRDFStoreException;
 import uk.ac.ox.cs.JRDFox.Prefixes;
 import uk.ac.ox.cs.JRDFox.store.DataStore;
@@ -20,13 +16,11 @@ import uk.ac.ox.cs.JRDFox.store.DataStore.UpdateType;
 import uk.ac.ox.cs.JRDFox.store.TupleIterator;
 import uk.ac.ox.cs.pagoda.hermit.DLClauseHelper;
 import uk.ac.ox.cs.pagoda.query.MultiQueryRecord;
-import uk.ac.ox.cs.pagoda.query.QueryRecord;
 import uk.ac.ox.cs.pagoda.reasoner.light.BasicQueryEngine;
 import uk.ac.ox.cs.pagoda.reasoner.light.RDFoxQueryEngine;
 import uk.ac.ox.cs.pagoda.reasoner.light.RDFoxTripleManager;
 import uk.ac.ox.cs.pagoda.util.MyPrefixes;
 import uk.ac.ox.cs.pagoda.util.Timer;
-import uk.ac.ox.cs.pagoda.util.Utility_PAGOdA;
 
 
 public class MultiQueryTracker extends QueryTracker {

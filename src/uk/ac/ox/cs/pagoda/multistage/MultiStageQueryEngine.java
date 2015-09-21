@@ -51,7 +51,7 @@ public class MultiStageQueryEngine extends StageQueryEngine {//TODO recover dist
 	public void materialiseMultiStage(
 			DatalogProgram4Classification dProgram, 
 			String skolemAboxFileName,
-			GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality gap, 
+			GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly gap, 
 			BasicQueryEngine lowerStore) {//inspired by materialiseRestrictedly in this class originally
 		addExtraTriplesFromLowerStore(lowerStore, indManager);
 		
@@ -65,7 +65,10 @@ public class MultiStageQueryEngine extends StageQueryEngine {//TODO recover dist
 		treatment.dispose();
 	}
 
-	private void materialiseMultiStage(MultiStageUpperProgram program, Treatment4Classification treatment, GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality gap) {
+	private void materialiseMultiStage(
+			MultiStageUpperProgram program, 
+			Treatment4Classification treatment, 
+			GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly gap) {
 		String programName = "multi-stage upper program"; 
 		Logger_MORe.logInfo(name + " store is materialising " + programName +  " ..."); 
 		Timer t = new Timer();
@@ -88,12 +91,10 @@ public class MultiStageQueryEngine extends StageQueryEngine {//TODO recover dist
 				incrementally = (iteration != 1);
 
 				if (incrementally)
-//					gap.compile(null);
-					((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality) gap).compileFromFile(null);
+					gap.compileFromFile(null);
 				else{
 					tripleCountBeforeMat = oldTripleCount;
-					((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality) gap).compileFromFile(new File(Utility_PAGOdA.TempDirectory + "/multi_datalog.dlog"));
-//					gap.compile(datalogProgram);
+					gap.compileFromFile(new File(Utility_PAGOdA.TempDirectory + "/multi_datalog.dlog"));
 				}
 //				Utility.printStoreToFile(store, "multistageMaterialisationIter"+iteration);
 //				Utility.printPredicatesSummaryOfStoreToFile(store, "multistageMaterialisationIter"+iteration);

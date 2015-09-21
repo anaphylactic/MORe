@@ -27,7 +27,7 @@ public class MOReReasonerTest {
 	static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	static String iri_onto;
 
-	@Test
+//	@Test
 	public void classifyClassesTest(){
 		String oxfordOntoRepository = "http://www.cs.ox.ac.uk/isg/ontologies/UID/";
 		String[] ontologies = new String[]{"00001.owl", "00002.owl", "00049.owl", "00350.owl", "00351.owl", "00459.owl", "00772.owl", "00774.owl"};

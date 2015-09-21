@@ -46,7 +46,6 @@ import org.semanticweb.owlapi.model.UnknownOWLOntologyException;
 import org.semanticweb.owlapi.profiles.OWL2RLProfile;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
 
-import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.ox.cs.pagoda.approx.Clause;
 import uk.ac.ox.cs.pagoda.approx.Clausifier;
 import uk.ac.ox.cs.pagoda.hermit.DLClauseHelper;

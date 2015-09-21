@@ -3,9 +3,11 @@ package org.semanticweb.more.structural.inverseRewriting;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Level;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.semanticweb.more.structural.OWLNormalization4MORe;
+import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -55,12 +57,13 @@ public class RewriterTest {
 		s = factory.getOWLObjectProperty(IRI.create("S"));
 		t = factory.getOWLObjectProperty(IRI.create("T"));
 		u = factory.getOWLObjectProperty(IRI.create("U"));
-		System.out.println("@BeforeClass executed");
 	}
 
 
 	@Test
 	public void testInverseRewriting1() throws OWLOntologyCreationException{
+		Logger_MORe.setLevel(Level.OFF);
+		
 		OWLNormalization4MORe.resetFreshClassCounter();
 		
 		OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r.getInverseProperty(), b));
@@ -96,6 +99,8 @@ public class RewriterTest {
 
 	@Test
 	public void testInverseRewriting2() throws OWLOntologyCreationException{
+		Logger_MORe.setLevel(Level.OFF);
+		
 		OWLNormalization4MORe.resetFreshClassCounter();
 		
 		OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, b));
@@ -143,6 +148,8 @@ public class RewriterTest {
 
 	@Test
 	public void testInverseRewriting3() throws OWLOntologyCreationException{
+		Logger_MORe.setLevel(Level.OFF);
+		
 		OWLNormalization4MORe.resetFreshClassCounter();
 		
 		OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectAllValuesFrom(s, b));
@@ -185,6 +192,8 @@ public class RewriterTest {
 	
 	@Test
 	public void testInverseRewriting4() throws OWLOntologyCreationException{
+		Logger_MORe.setLevel(Level.OFF);
+		
 		OWLNormalization4MORe.resetFreshClassCounter();
 		
 		OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectAllValuesFrom(s, b));
@@ -237,6 +246,8 @@ public class RewriterTest {
 	
 	@Test
 	public void testInverseRewriting5() throws OWLOntologyCreationException{
+		Logger_MORe.setLevel(Level.OFF);
+		
 		OWLNormalization4MORe.resetFreshClassCounter();
 		
 		OWLAxiom ax1 = factory.getOWLSymmetricObjectPropertyAxiom(r);
@@ -263,7 +274,7 @@ public class RewriterTest {
 		Rewriter rewriter = new Rewriter(normalAxioms, sorted);
 		for (OWLAxiom ax : rewriter.getRewrittenOntology()){
 			actual.add(ax.toString());
-			System.out.println(ax.toString());
+//			System.out.println(ax.toString());
 		}
 		
 		Set<String> control = new HashSet<String>();

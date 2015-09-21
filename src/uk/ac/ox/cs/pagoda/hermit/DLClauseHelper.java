@@ -7,8 +7,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import javax.mail.search.BodyTerm;
-
 import org.semanticweb.HermiT.Prefixes;
 import org.semanticweb.HermiT.model.AtLeastDataRange;
 import org.semanticweb.HermiT.model.Atom;

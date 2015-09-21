@@ -93,13 +93,11 @@ public class OWL2ReasonerManagerTest {
 		o = factory.getOWLNamedIndividual(IRI.create(iriPrefix4Entities + "#o"));
 		r = factory.getOWLObjectProperty(IRI.create(iriPrefix4Entities + "#R"));
 		
-		
+		Logger_MORe.setLevel(Level.OFF);
 	}
 	
 	@Test
 	public void externalOWL2ReasonerTest_withRDFox() throws Exception{
-		Logger_MORe.setLevel(Level.TRACE);
-
 		setUp();
 		OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, b));
 		OWLAxiom ax2 = factory.getOWLSubClassOfAxiom(b, factory.getOWLNothing());//a will be unsat in the lower bound
@@ -136,8 +134,6 @@ public class OWL2ReasonerManagerTest {
 	
 	@Test
 	public void externalOWL2ReasonerTest_withoutRDFox() throws Exception{
-		Logger_MORe.setLevel(Level.TRACE);
-
 		setUp();
 		OWLAxiom ax1 = factory.getOWLSubClassOfAxiom(a, factory.getOWLObjectSomeValuesFrom(r, b));
 		OWLAxiom ax2 = factory.getOWLSubClassOfAxiom(b, factory.getOWLNothing());//a will be unsat in the lower bound

@@ -48,10 +48,8 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 
 	public void materialiseFoldedly(DatalogProgram dProgram, GapByStore4ID gap) {
 		materialise("lower program", new File(dProgram.getLower().getOutputPath()));
-//		String program = dProgram.getUpper().toString();
 		try {
-//			gap.compile(program);
-			((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
+			((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
 			gap.addBackTo();
 			getDataStore().clearRulesAndMakeFactsExplicit();
 		} catch (JRDFStoreException e) {
@@ -64,10 +62,8 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 	public int materialiseRestrictedly(DatalogProgram dProgram, GapByStore4ID gap) {
 		if (gap != null) {
 			materialise("lower program", new File(dProgram.getLower().getOutputPath()));
-//			String program = dProgram.getUpper().toString();
 			try {
-//				gap.compile(program);
-				((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
+				((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
 				gap.addBackTo();
 				getDataStore().clearRulesAndMakeFactsExplicit();
 			} catch (JRDFStoreException e) {
@@ -430,8 +426,7 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 		
 //		String program = dProgram.getUpper().toString();
 		try {
-//			gap.compile(program);
-			((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
+			((GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly) gap).compileFromFile(new File(dProgram.getUpper().getOutputPath()));
 			gap.addBackTo();
 			getDataStore().clearRulesAndMakeFactsExplicit();
 		} catch (JRDFStoreException e) {
