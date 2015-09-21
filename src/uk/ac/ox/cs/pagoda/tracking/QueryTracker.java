@@ -22,6 +22,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
+import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.ox.cs.JRDFox.JRDFStoreException;
 import uk.ac.ox.cs.JRDFox.Prefixes;
 import uk.ac.ox.cs.JRDFox.model.Datatype;

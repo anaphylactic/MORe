@@ -35,7 +35,7 @@ public class DatalogProgram4Classification{// extends DatalogProgram{ because of
 	
 
 	private void init(OWLOntology o) {
-		upperProgram.load(o, upperBottom = new UnaryBottom());//this was commented in Yujiao's code
+		upperProgram.load(o, upperBottom = new UnaryBottom());
 		lowerProgram.loadRestrictedELontology(o);
 		program.clone(upperProgram);
 		

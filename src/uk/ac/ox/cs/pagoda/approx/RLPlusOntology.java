@@ -19,7 +19,7 @@ import org.semanticweb.HermiT.model.DLClause;
 import org.semanticweb.HermiT.model.DLOntology;
 import org.semanticweb.HermiT.structural.OWLClausification;
 import org.semanticweb.more.util.Logger_MORe;
-import org.semanticweb.more.util.Utility;
+import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -155,12 +155,23 @@ public class RLPlusOntology implements KnowledgeBase {
 	}
 	
 	public void simplify() {
+		/////
+//		IRI documentIRI = manager.getOntologyDocumentIRI(tBox);
+		/////
 		if (simplifyABox()) { 
 			save(aBox);
-//			save(tBox);
 		}
 		else 
-			tBox = inputOntology; 
+			tBox = inputOntology;
+//		/////
+//		manager.setOntologyDocumentIRI(tBox, documentIRI);
+//		try {
+//			manager.saveOntology(tBox, new OWLFunctionalSyntaxOntologyFormat());
+//		} catch (OWLOntologyStorageException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		/////
 	}
 	
 	@Override

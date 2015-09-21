@@ -1,13 +1,13 @@
 package org.semanticweb.more.reasoner;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Level;
-import static org.junit.Assert.*;
+import org.junit.Test;
 import org.semanticweb.HermiT.Reasoner;
-import org.semanticweb.more.reasoner.MOReReasoner;
-import org.semanticweb.more.reasoner.MOReReasonerConfiguration;
 import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -27,12 +27,13 @@ public class MOReReasonerTest {
 	static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	static String iri_onto;
 
-	
+	@Test
 	public void classifyClassesTest(){
 		String oxfordOntoRepository = "http://www.cs.ox.ac.uk/isg/ontologies/UID/";
 		String[] ontologies = new String[]{"00001.owl", "00002.owl", "00049.owl", "00350.owl", "00351.owl", "00459.owl", "00772.owl", "00774.owl"};
 		try{
 			for (String o : ontologies){
+				Logger_MORe.setLevel(Level.INFO);
 				System.out.println(o);
 				iri_onto = oxfordOntoRepository + o;
 
@@ -52,7 +53,6 @@ public class MOReReasonerTest {
 				ontology = manager.createOntology(rtBox, IRI.create("RTBox.owl"));
 
 				Logger_MORe.logDebug("\nLoaded ontology: " + iri_onto);
-
 
 				Reasoner hermit = new Reasoner(ontology);
 				hermit.precomputeInferences(InferenceType.CLASS_HIERARCHY);
@@ -76,6 +76,7 @@ public class MOReReasonerTest {
 					MOReReasoner more = new MOReReasoner(ontology, config);
 					more.precomputeInferences(InferenceType.CLASS_HIERARCHY);
 					System.out.println("done classifying");
+					
 					assertTrue(TestUtility.compareClassificationMORe(ontology.getClassesInSignature(true), hermit, more));
 					System.out.println("now to reload");
 

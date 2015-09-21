@@ -163,6 +163,7 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		lowerStore.materialise("el program", new File(program.getLower().getOutputPath()), false);
 
 		Utility.printAllTriples(lowerStore.getDataStore());
+		
 		Logger_MORe.logInfo("The number of sameAs assertions in lower store: " + lowerStore.getSameAsNumber());
 
 		updateUnsatisfiableClasses();
@@ -212,7 +213,6 @@ public class PAGOdAClassificationManager extends QueryReasoner{//this class foll
 		else{
 			gap = new GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality(trackingStore, lowerStore); 
 			trackingStore.materialise(program, aBoxManager.skolemABox_fileName, gap, lowerStore, indManager);
-
 			predicatesWithGap = gap.getPredicatesWithGap();
 			if (predicatesWithGap .isEmpty())
 				return true;

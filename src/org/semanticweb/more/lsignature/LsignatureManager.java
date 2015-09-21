@@ -322,10 +322,12 @@ public class LsignatureManager {
 					return true;	
 				}
 				SyntacticLocalityModuleExtractor moduleExtractor = new SyntacticLocalityModuleExtractor(
-						ontology.getOWLOntologyManager(), 
+						manager, 
 						ontology, 
 						ModuleType.BOT);
 				try {
+//					ontology = manager.createOntology(iri);
+//					manager.addAxioms(ontology, moduleExtractor.extract(aux));
 					ontology = moduleExtractor.extractAsOntology(aux, iri);
 				} catch (OWLOntologyCreationException e1) {
 					extractor = null;
@@ -337,8 +339,9 @@ public class LsignatureManager {
 
 			//if we get this far then we have a nonempty ontology (maybe module) that we need to normalize and then rewrite
 			OWLNormalization4MORe normalization = new OWLNormalization4MORe(ontology, true, true, true);
-			if (manager.contains(iri)) manager.removeOntology(ontology);
 			Rewriter rewriter = new Rewriter(normalization.getNormalizedOntology(), normalization.getSortedGCIs());
+			if (manager.contains(iri)) 
+				manager.removeOntology(ontology);
 			Set<OWLAxiom> rewrittenAxioms = rewriter.getRewrittenOntology();
 			if (!rewriter.anyRewrittenRoles()){
 				extractor = null;

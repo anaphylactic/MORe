@@ -46,6 +46,7 @@ import org.semanticweb.owlapi.model.UnknownOWLOntologyException;
 import org.semanticweb.owlapi.profiles.OWL2RLProfile;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
 
+import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.ox.cs.pagoda.approx.Clause;
 import uk.ac.ox.cs.pagoda.approx.Clausifier;
 import uk.ac.ox.cs.pagoda.hermit.DLClauseHelper;
@@ -219,6 +220,14 @@ public class OWLHelper {
 		else if (DLClauseHelper.isFunctionalDataPropertyAxioms(dlClause)) {
 			OWLDataProperty prop = factory.getOWLDataProperty(IRI.create(((AtomicRole) dlClause.getBodyAtom(0).getDLPredicate()).getIRI()));
 			return factory.getOWLFunctionalDataPropertyAxiom(prop);
+		}
+		else if (DLClauseHelper.isAsymmetricObjectPropertyAxiom(dlClause)) {
+			OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(((AtomicRole) dlClause.getBodyAtom(0).getDLPredicate()).getIRI()));
+			return factory.getOWLAsymmetricObjectPropertyAxiom(prop);
+		}
+		else if (DLClauseHelper.isIrreflexiveObjectPropertyAxiom(dlClause)) {
+			OWLObjectProperty prop = factory.getOWLObjectProperty(IRI.create(((AtomicRole) dlClause.getBodyAtom(0).getDLPredicate()).getIRI()));
+			return factory.getOWLIrreflexiveObjectPropertyAxiom(prop);
 		}
 		else { 
 			Clausifier clausifier = new Clausifier(ontology); 

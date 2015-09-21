@@ -483,7 +483,7 @@ public class BasicQueryEngine extends RDFoxQueryEngine {
 					+ Namespace.RDF_TYPE + "> ?z . }");
 			for (long multi = derivedTuples.open(); multi != 0; multi = derivedTuples.getNext()) {
 				String p = RDFoxTripleManager.getRawTerm(derivedTuples.getResource(0));
-				if (!Utility.isRDFoxInternalPredicate(p))
+				if (!Utility.isRDFoxInternalPredicate(p) && !Utility.isHermiTInternalPredicate(p))
 					unaryPredicates.add(p);
 			}
 		} catch (JRDFStoreException e) {

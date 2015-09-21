@@ -86,7 +86,7 @@ public abstract class ApproxProgram extends Program {
 
 	public OWLAxiom getEquivalentAxiom(DLClause clause) {
 		Object obj = correspondence.get(clause);
-		if (obj instanceof OWLAxiom) 
+		if (obj instanceof OWLAxiom)
 			return (OWLAxiom) obj; 
 		else if (obj != null){
 			OWLAxiom ax = OWLHelper.getOWLAxiom(ontology, (DLClause) obj);

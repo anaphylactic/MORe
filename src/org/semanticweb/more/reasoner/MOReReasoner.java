@@ -66,6 +66,7 @@ import org.semanticweb.owlapi.util.Version;
 import uk.ac.manchester.cs.owlapi.modularity.ModuleType;
 import uk.ac.manchester.cs.owlapi.modularity.SyntacticLocalityModuleExtractor;
 import uk.ac.ox.cs.pagoda.util.Timer;
+import uk.ac.ox.cs.pagoda.util.Utility_PAGOdA;
 
 public class MOReReasoner implements OWLReasoner {
 
@@ -337,6 +338,8 @@ public class MOReReasoner implements OWLReasoner {
 			stats.updateNaxiomsForHermiT(axiomsForOWL2Reasoner.getAxiomCount());
 			
 			String originalDocumentIRI = manager.getOntologyDocumentIRI(root_ontology).toString();
+			if (!originalDocumentIRI.startsWith("file:")) 
+				originalDocumentIRI = "file:"+ Utility_PAGOdA.TempDirectory + "ontology";
 			String documentIRI = ""; 
 			if (originalDocumentIRI.lastIndexOf(".") > -1)
 				documentIRI = originalDocumentIRI.substring(0, originalDocumentIRI.lastIndexOf("."));

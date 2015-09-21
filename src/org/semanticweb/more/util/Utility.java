@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.semanticweb.HermiT.model.Individual;
+import org.semanticweb.more.pagoda.IndividualManager;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -81,6 +83,49 @@ public class Utility {
 			if (iter != null) iter.dispose();
 		}
 	}
+	
+	public static void printTriplesInvolvingIndividual(DataStore store, Individual ind){
+		TupleIterator iter = null;
+		try{
+			String query = "select ?y ?z where { " + ind.toString() + " ?y ?z }";
+			Parameters par = new Parameters();
+			par.m_expandEquality = false;
+			iter = store.compileQuery(query, new Prefixes(), par);
+			for (long multi = iter.open() ; multi != 0 ; multi = iter.getNext()){
+				String t1 = ind.toString();
+				String t2 = iter.getGroundTerm(0).toString();
+				String t3 = iter.getGroundTerm(1).toString();
+				if (!(t2.equals(MyPrefixes.PAGOdAPrefixes.expandText("owl:sameAs")) && t1.equals(t3)))
+					Logger_MORe.logInfo(t1 + " " + t2 + " " + t3);
+			}
+		}
+		catch (JRDFStoreException e){
+			e.printStackTrace();
+		}
+		finally{
+			if (iter != null) iter.dispose();
+		}
+		try{
+			String query = "select ?x ?y where { ?x ?y " + ind.toString() + " }";
+			Parameters par = new Parameters();
+			par.m_expandEquality = false;
+			iter = store.compileQuery(query, new Prefixes(), par);
+			for (long multi = iter.open() ; multi != 0 ; multi = iter.getNext()){
+				String t1 = iter.getGroundTerm(0).toString();
+				String t2 = iter.getGroundTerm(1).toString();
+				String t3 = ind.toString();
+				if (!(t2.equals(MyPrefixes.PAGOdAPrefixes.expandText("owl:sameAs")) && t1.equals(t3)))
+					Logger_MORe.logInfo(t1 + " " + t2 + " " + t3);
+			}
+		}
+		catch (JRDFStoreException e){
+			e.printStackTrace();
+		}
+		finally{
+			if (iter != null) iter.dispose();
+		}
+	}
+	
 
 	public static void exportStore(DataStore store, String toFile, boolean expandEquality){
 		TupleIterator iter = null;

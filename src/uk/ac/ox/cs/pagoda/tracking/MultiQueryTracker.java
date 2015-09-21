@@ -7,10 +7,12 @@ import java.util.Set;
 import org.semanticweb.HermiT.model.DLClause;
 import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.more.util.Utility;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
+import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.ox.cs.JRDFox.JRDFStoreException;
 import uk.ac.ox.cs.JRDFox.Prefixes;
 import uk.ac.ox.cs.JRDFox.store.DataStore;
@@ -180,15 +182,7 @@ public class MultiQueryTracker extends QueryTracker {
 				if (DLClauseHelper.isTautologyAboutDifferentFrom(clause))
 					continue;
 				
-				
 				tBoxAxiom = m_encoder.getProgram().getEquivalentAxiom(clause);
-				
-				
-//				if (tBoxAxiom.toString().contains("ObjectSomeValuesFrom(<http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#hasColor>")){
-//					System.out.println(clause.toString());
-//				}
-				
-				
 				addRelevantClauseToRecord(clause);
 				m_tBoxAxioms.add(tBoxAxiom);
 			}

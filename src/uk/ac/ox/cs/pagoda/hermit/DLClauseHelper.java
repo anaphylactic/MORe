@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.search.BodyTerm;
+
 import org.semanticweb.HermiT.Prefixes;
 import org.semanticweb.HermiT.model.AtLeastDataRange;
 import org.semanticweb.HermiT.model.Atom;
@@ -411,4 +413,32 @@ public class DLClauseHelper {
 		return (bodyAtom.getDLPredicate() instanceof Inequality) && bodyAtom.getArgument(0).equals(bodyAtom.getArgument(1)); 
 	}
 
+	public static boolean isAsymmetricObjectPropertyAxiom(DLClause clause) {
+		if (clause.getHeadLength() > 1 || clause.getBodyLength() != 2) return false;
+		if (clause.getHeadLength() == 0 || clause.getHeadAtom(0).getDLPredicate().toString().contains(AtomicConcept.NOTHING.toString())) {
+			Atom bodyAtom1 = clause.getBodyAtom(0);
+			DLPredicate p1 = bodyAtom1.getDLPredicate();
+			Atom bodyAtom2 = clause.getBodyAtom(1);
+			DLPredicate p2 = bodyAtom2.getDLPredicate();
+			if (p1.getArity() != 2 || p2.getArity() != 2 || !p1.equals(p2)) 
+				return false;
+			if (bodyAtom1.getArgument(0) instanceof Variable && bodyAtom1.getArgument(0).equals(bodyAtom2.getArgument(1))
+					&& bodyAtom2.getArgument(0) instanceof Variable && bodyAtom2.getArgument(0).equals(bodyAtom1.getArgument(1)))
+				return true;
+		}
+		return false;
+	}
+	
+	public static boolean isIrreflexiveObjectPropertyAxiom(DLClause clause) {
+		if (clause.getHeadLength() > 1 || clause.getBodyLength() != 1) return false;
+		if (clause.getHeadLength() == 0 || clause.getHeadAtom(0).getDLPredicate().toString().contains(AtomicConcept.NOTHING.toString())) {
+			Atom bodyAtom = clause.getBodyAtom(0);
+			DLPredicate p = bodyAtom.getDLPredicate();
+			if (p.getArity() == 2 || bodyAtom.getArgument(0) instanceof Variable || bodyAtom.getArgument(0) == bodyAtom.getArgument(1)) 
+				return true;
+		}
+		return false;
+	}
+	
+	
 }
