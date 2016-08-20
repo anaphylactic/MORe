@@ -3,7 +3,6 @@ package org.semanticweb.more.reasoner;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -12,14 +11,7 @@ import org.apache.log4j.Level;
 import org.junit.Test;
 import org.semanticweb.elk.owlapi.ElkReasoner;
 import org.semanticweb.elk.owlapi.ElkReasonerFactory;
-import org.semanticweb.more.lsignature.LogicFragment;
-import org.semanticweb.more.lsignature.LsignatureExtractor_reducedGreedyness;
-import org.semanticweb.more.structural.OWLNormalization4MORe;
-import org.semanticweb.more.structural.inverseRewriting.Rewriter;
-import org.semanticweb.more.structural.inverseRewriting.RoleOperations;
-import org.semanticweb.more.structural.inverseRewriting.SortedGCI;
 import org.semanticweb.more.util.Logger_MORe;
-import org.semanticweb.more.util.Utility;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -32,12 +24,9 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
-import uk.ac.manchester.cs.owlapi.modularity.ModuleType;
-import uk.ac.manchester.cs.owlapi.modularity.SyntacticLocalityModuleExtractor;
 import uk.ac.ox.cs.pagoda.util.Utility_PAGOdA;
 import util.TestUtility;
 

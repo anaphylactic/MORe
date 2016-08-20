@@ -1,8 +1,5 @@
 package org.semanticweb.more.pagoda;
 
-import org.semanticweb.more.util.Utility;
-
-import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 import uk.ac.ox.cs.pagoda.query.ClassificationQueryType;
 import uk.ac.ox.cs.pagoda.query.QueryManager;
 import uk.ac.ox.cs.pagoda.query.QueryRecord4Classification;

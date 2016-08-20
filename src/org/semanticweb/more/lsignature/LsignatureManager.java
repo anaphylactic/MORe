@@ -9,7 +9,6 @@ import java.util.concurrent.ForkJoinTask;
 import org.semanticweb.more.reasoner.Statistics;
 import org.semanticweb.more.structural.OWLNormalization4MORe;
 import org.semanticweb.more.structural.inverseRewriting.Rewriter;
-import org.semanticweb.more.structural.inverseRewriting.RoleOperations;
 import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.more.util.Utility;
 import org.semanticweb.owlapi.model.IRI;

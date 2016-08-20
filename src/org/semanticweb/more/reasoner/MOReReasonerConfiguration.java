@@ -3,10 +3,7 @@ package org.semanticweb.more.reasoner;
 import org.semanticweb.owlapi.reasoner.FreshEntityPolicy;
 import org.semanticweb.owlapi.reasoner.IndividualNodeSetPolicy;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
-import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.ReasonerProgressMonitor;
-
-import uk.ac.ox.cs.pagoda.query.ClassificationQueryType;
 
 public class MOReReasonerConfiguration implements OWLReasonerConfiguration{
 

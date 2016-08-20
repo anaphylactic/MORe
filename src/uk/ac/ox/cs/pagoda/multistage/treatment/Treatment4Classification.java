@@ -24,7 +24,6 @@ import uk.ac.ox.cs.pagoda.multistage.MultiStageUpperProgram;
 import uk.ac.ox.cs.pagoda.multistage.Violation;
 import uk.ac.ox.cs.pagoda.query.AnswerTuple;
 import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly;
-import uk.ac.ox.cs.pagoda.query.GapByStore4ID_registerInfoAboutInstantiationIndividualsOnly_supportingEquality;
 import uk.ac.ox.cs.pagoda.util.SparqlHelper;
 
 public class Treatment4Classification extends Pick4NegativeConceptNaive {

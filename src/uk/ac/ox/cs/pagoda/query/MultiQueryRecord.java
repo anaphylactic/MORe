@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.semanticweb.HermiT.model.DLClause;
-import org.semanticweb.more.pagoda.QueryManager4Classification;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;

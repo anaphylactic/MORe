@@ -4,7 +4,6 @@ package uk.ac.ox.cs.pagoda.multistage;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.apache.log4j.Level;
 import org.semanticweb.HermiT.model.AtLeast;
 import org.semanticweb.HermiT.model.AtLeastConcept;
 import org.semanticweb.HermiT.model.AtLeastDataRange;
@@ -13,13 +12,11 @@ import org.semanticweb.HermiT.model.AtomicConcept;
 import org.semanticweb.HermiT.model.AtomicNegationConcept;
 import org.semanticweb.HermiT.model.DLClause;
 import org.semanticweb.more.pagoda.rules.OverApproxExist4Classification;
-import org.semanticweb.more.util.Logger_MORe;
 
 import uk.ac.ox.cs.pagoda.constraints.BottomStrategy;
 import uk.ac.ox.cs.pagoda.rules.Approximator;
 import uk.ac.ox.cs.pagoda.rules.OverApproxExist;
 import uk.ac.ox.cs.pagoda.rules.Program;
-import uk.ac.ox.cs.pagoda.util.Utility_PAGOdA;
 
 public class MultiStageUpperProgram4Classification extends RestrictedApplication{
 

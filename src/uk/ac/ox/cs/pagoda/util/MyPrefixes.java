@@ -3,7 +3,6 @@ package uk.ac.ox.cs.pagoda.util;
 import java.util.Map;
 
 import org.semanticweb.more.util.Logger_MORe;
-import org.semanticweb.more.util.Utility;
 
 import uk.ac.ox.cs.pagoda.owl.OWLHelper;
 

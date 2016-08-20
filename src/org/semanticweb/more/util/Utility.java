@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.semanticweb.HermiT.model.Individual;
-import org.semanticweb.more.pagoda.IndividualManager;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;

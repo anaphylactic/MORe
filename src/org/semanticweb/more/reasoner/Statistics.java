@@ -1,7 +1,6 @@
 package org.semanticweb.more.reasoner;
 
 import org.semanticweb.more.util.Logger_MORe;
-import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;

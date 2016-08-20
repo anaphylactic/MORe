@@ -19,7 +19,6 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
-import org.apache.log4j.Logger;
 import org.semanticweb.HermiT.model.Atom;
 
 public class Utility_PAGOdA {

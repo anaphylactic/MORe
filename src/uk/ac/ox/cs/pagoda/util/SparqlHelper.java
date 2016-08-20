@@ -17,7 +17,6 @@ import org.semanticweb.HermiT.model.Inequality;
 import org.semanticweb.HermiT.model.Term;
 import org.semanticweb.HermiT.model.Variable;
 import org.semanticweb.more.util.Logger_MORe;
-import org.semanticweb.more.util.Utility;
 
 import uk.ac.ox.cs.pagoda.hermit.RuleHelper;
 

@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Level;
-import org.junit.Test;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.more.util.Logger_MORe;
+import org.semanticweb.more.visitors.EqualityAxiomVisitor;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -17,7 +17,6 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.InferenceType;
 
-import tests.EqualityAxiomVisitor;
 import util.TestUtility;
 
 

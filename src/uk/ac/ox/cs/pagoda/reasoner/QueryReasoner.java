@@ -2,7 +2,6 @@ package uk.ac.ox.cs.pagoda.reasoner;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 
 import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -10,8 +9,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import uk.ac.ox.cs.pagoda.query.AnswerTuples;
 import uk.ac.ox.cs.pagoda.query.QueryManager;
 import uk.ac.ox.cs.pagoda.query.QueryRecord;
-import uk.ac.ox.cs.pagoda.util.Timer;
-import uk.ac.ox.cs.pagoda.util.Utility_PAGOdA;
 
 public abstract class QueryReasoner {
 	

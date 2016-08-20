@@ -20,15 +20,15 @@ import org.semanticweb.HermiT.model.Inequality;
 import org.semanticweb.HermiT.model.Term;
 import org.semanticweb.HermiT.model.Variable;
 
-import uk.ac.ox.cs.pagoda.owl.OWLHelper;
-import uk.ac.ox.cs.pagoda.util.Namespace;
 import uk.ac.ox.cs.JRDFox.JRDFStoreException;
+import uk.ac.ox.cs.JRDFox.model.Datatype;
 import uk.ac.ox.cs.JRDFox.model.GroundTerm;
 import uk.ac.ox.cs.JRDFox.store.DataStore;
-import uk.ac.ox.cs.JRDFox.model.Datatype;
-import uk.ac.ox.cs.JRDFox.store.Dictionary;
 import uk.ac.ox.cs.JRDFox.store.DataStore.UpdateType;
+import uk.ac.ox.cs.JRDFox.store.Dictionary;
 import uk.ac.ox.cs.JRDFox.store.Resource;
+import uk.ac.ox.cs.pagoda.owl.OWLHelper;
+import uk.ac.ox.cs.pagoda.util.Namespace;
 
 public class RDFoxTripleManager {
 	

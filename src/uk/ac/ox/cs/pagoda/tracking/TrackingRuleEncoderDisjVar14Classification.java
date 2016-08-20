@@ -16,7 +16,6 @@ import uk.ac.ox.cs.pagoda.hermit.DLClauseHelper;
 import uk.ac.ox.cs.pagoda.multistage.Normalisation;
 import uk.ac.ox.cs.pagoda.query.AnswerTuple;
 import uk.ac.ox.cs.pagoda.query.AnswerTuples;
-import uk.ac.ox.cs.pagoda.query.ClassificationQueryType;
 import uk.ac.ox.cs.pagoda.query.MultiQueryRecord;
 import uk.ac.ox.cs.pagoda.query.QueryRecord4Classification;
 import uk.ac.ox.cs.pagoda.reasoner.light.BasicQueryEngine;

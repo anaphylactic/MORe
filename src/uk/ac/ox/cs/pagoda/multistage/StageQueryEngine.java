@@ -3,10 +3,8 @@ package uk.ac.ox.cs.pagoda.multistage;
 import org.semanticweb.more.util.Logger_MORe;
 
 import uk.ac.ox.cs.pagoda.query.AnswerTuples;
-import uk.ac.ox.cs.pagoda.query.GapByStore4ID;
 import uk.ac.ox.cs.pagoda.query.QueryRecord;
 import uk.ac.ox.cs.pagoda.reasoner.light.BasicQueryEngine;
-import uk.ac.ox.cs.pagoda.rules.DatalogProgram;
 
 public abstract class StageQueryEngine extends BasicQueryEngine {
 	

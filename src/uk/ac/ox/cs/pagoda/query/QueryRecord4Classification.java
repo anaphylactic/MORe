@@ -10,9 +10,6 @@ import org.semanticweb.more.pagoda.QueryManager4Classification;
 import org.semanticweb.more.util.Logger_MORe;
 import org.semanticweb.more.util.Utility;
 
-import uk.ac.ox.cs.pagoda.tracking.TrackingRuleEncoder;
-import uk.ac.ox.cs.pagoda.util.Namespace;
-
 public class QueryRecord4Classification extends QueryRecord {
 
 	
