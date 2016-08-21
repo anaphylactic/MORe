@@ -21,32 +21,32 @@ public class MOReReasonerFactory implements OWLReasonerFactory {
 	}
 
 	@Override
-	public OWLReasoner createReasoner(OWLOntology ontology,
+	public MOReReasoner createReasoner(OWLOntology ontology,
 			OWLReasonerConfiguration config)
 			throws IllegalConfigurationException {
 		return createMoreReasoner(ontology, true, config, null, null);
 	}
 
 	@Override
-	public OWLReasoner createNonBufferingReasoner(OWLOntology ontology) {
+	public MOReReasoner createNonBufferingReasoner(OWLOntology ontology) {
 		return createMoreReasoner(ontology, false, new MOReReasonerConfiguration(), null, null);
 	}
 
 	@Override
-	public OWLReasoner createNonBufferingReasoner(OWLOntology ontology,
+	public MOReReasoner createNonBufferingReasoner(OWLOntology ontology,
 			OWLReasonerConfiguration config)
 			throws IllegalConfigurationException {
 		return createMoreReasoner(ontology, false, config, null, null);
 	}
 	
-	public OWLReasoner createReasoner(
+	public MOReReasoner createReasoner(
 			OWLOntology ontology, 
 			OWLReasonerFactory owl2ReasonerFactory, 
 			OWLReasonerConfiguration owl2ReasonerConfiguration) {
 		return createMoreReasoner(ontology, true, new MOReReasonerConfiguration(), owl2ReasonerFactory, owl2ReasonerConfiguration);
 	}
 	
-	public OWLReasoner createReasoner(
+	public MOReReasoner createReasoner(
 			OWLOntology ontology, 
 			MOReReasonerConfiguration moreConfig, 
 			OWLReasonerFactory owl2ReasonerFactory, 
@@ -55,14 +55,14 @@ public class MOReReasonerFactory implements OWLReasonerFactory {
 		return createMoreReasoner(ontology, true, moreConfig, owl2ReasonerFactory, owl2ReasonerConfiguration);
 	}
 	
-	public OWLReasoner createNonBufferingReasoner(
+	public MOReReasoner createNonBufferingReasoner(
 			OWLOntology ontology, 
 			OWLReasonerFactory owl2ReasonerFactory, 
 			OWLReasonerConfiguration owl2ReasonerConfiguration) {
 		return createMoreReasoner(ontology, false, new MOReReasonerConfiguration(), owl2ReasonerFactory, owl2ReasonerConfiguration);
 	}
 
-	public OWLReasoner createNonBufferingReasoner(
+	public MOReReasoner createNonBufferingReasoner(
 			OWLOntology ontology,
 			OWLReasonerConfiguration moreConfig, 
 			OWLReasonerFactory owl2ReasonerFactory, 

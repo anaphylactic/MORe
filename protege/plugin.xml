@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<plugin>
+    <extension id="org.semanticweb.more.factory.simple" point="org.protege.editor.owl.inference_reasonerfactory">
+        <name value="MORe"/>
+        <label value="MORe"/>
+        <class value="org.semanticweb.more.protege.MOReProtegePluginInstance"/>
+    </extension>
+    <extension id="org.semanticweb.more.factory.withRDFox" point="org.protege.editor.owl.inference_reasonerfactory">
+        <name value="MORe+RDFox"/>
+        <label value="MORe+RDFox"/>
+        <class value="org.semanticweb.more.protege.MOReWithRDFoxProtegePluginInstance"/>
+    </extension>
+</plugin>
